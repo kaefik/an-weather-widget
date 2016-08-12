@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">an-weather-widget</string>
+    <string name="appwidget_text">KAZAN</string>
+    <string name="add_widget">Add widget</string>
+    <string name="kazan">KAZAN</string>
+    <string name="temp">25 C</string>
+    <string name="wind">СВ (4 м/с)</string>
 </resources>
