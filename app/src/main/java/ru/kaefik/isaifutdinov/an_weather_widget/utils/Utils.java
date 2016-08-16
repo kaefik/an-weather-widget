@@ -280,5 +280,14 @@ public class Utils {
         }
     }
 
+    // проверка на наличение подключения к интернет
+//    public boolean isConnected() {
+//        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+//        NetworkInfo ni = cm.getActiveNetworkInfo();
+//        if (ni != null && ni.isConnected()) {
+//            return true;
+//        }
+//        return false;
+//    }
 
 }

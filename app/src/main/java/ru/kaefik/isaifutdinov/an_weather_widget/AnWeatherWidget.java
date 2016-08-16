@@ -123,3 +123,23 @@ public class AnWeatherWidget extends AppWidgetProvider {
     }
 }
 
+
+//public class PingWidget extends AppWidgetProvider{
+//    public static String FORCE_WIDGET_UPDATE = "com.example.pinger.FORCE_WIDGET_UPDATE";
+//    @Override
+//    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+//        startService(context);
+//    }
+//    @Override
+//    public void onReceive(Context context, Intent intent){
+//        super.onReceive(context, intent);
+//        if (FORCE_WIDGET_UPDATE.equals(intent.getAction())) updateWidget(context);
+//    }
+//    private void updateWidget(Context context) {
+//        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+//        ComponentName thisWidget = new ComponentName(context, PingWidget.class);
+//        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
+//        drawWidget(context, appWidgetManager, appWidgetIds);
+//    }
+//    ...
+//}
