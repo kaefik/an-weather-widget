@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.util.concurrent.ExecutionException;
@@ -13,6 +14,8 @@ import java.util.concurrent.TimeoutException;
 import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel;
 
 public class GetWeatherCityService extends Service {
+
+    public static String TAG_SERVICE ="GetWeatherCityService";
 
     private CityModel mCityModel;
     private cityInfoAsyncTask mTask;
@@ -62,12 +65,26 @@ public class GetWeatherCityService extends Service {
         super.onCreate();
         mCityModel = new CityModel("Kazan");
         mCityModel.setMYAPPID("76d6de6e46c704733f12c8738307dbb5");
+        Log.i(TAG_SERVICE,"Start service GetWeatherCityService");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        refreshDataWeather();
+        try {
+            refreshDataWeather();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        Log.i(TAG_SERVICE,"Start onStartCommand  GetWeatherCityService");
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG_SERVICE,"Destroy GetWeatherCityService");
     }
 
     @Override
