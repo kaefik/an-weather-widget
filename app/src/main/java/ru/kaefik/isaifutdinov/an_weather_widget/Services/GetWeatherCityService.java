@@ -11,6 +11,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import ru.kaefik.isaifutdinov.an_weather_widget.AnWeatherWidget;
 import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel;
 
 public class GetWeatherCityService extends Service {
@@ -63,13 +64,20 @@ public class GetWeatherCityService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        mCityModel = new CityModel("Kazan");
-        mCityModel.setMYAPPID("76d6de6e46c704733f12c8738307dbb5");
+
         Log.i(TAG_SERVICE,"Start service GetWeatherCityService");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i(TAG_SERVICE,"Start onStartCommand  GetWeatherCityService");
+        mCityModel = new CityModel();
+        mCityModel.setMYAPPID("76d6de6e46c704733f12c8738307dbb5");
+        // получение данных через intent: имя города который нужно обновить
+        mCityModel.setName(intent.getStringExtra(AnWeatherWidget.PARAM_CITY));
+        Log.i(TAG_SERVICE,"имя города: "+mCityModel.getName());
+
+        //обновление погоды
         try {
             refreshDataWeather();
         } catch (ExecutionException e) {
@@ -77,7 +85,10 @@ public class GetWeatherCityService extends Service {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.i(TAG_SERVICE,"Start onStartCommand  GetWeatherCityService");
+        refreshWidget();
+
+        Log.i(TAG_SERVICE,"start refreshWidget");
+
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -91,6 +102,15 @@ public class GetWeatherCityService extends Service {
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    // обновление виджета используя широковещательные сообщения
+    private void refreshWidget(){
+        Intent intent = new Intent(AnWeatherWidget.FORCE_WIDGET_UPDATE);
+        intent.putExtra(AnWeatherWidget.PARAM_CITY,mCityModel.getName());
+        intent.putExtra(AnWeatherWidget.PARAM_TEMP,mCityModel.getTemp());
+        //TODO: добавить передача остальных полей
+        sendBroadcast(intent);
     }
 
 

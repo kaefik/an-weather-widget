@@ -70,4 +70,12 @@
         android:layout_below="@+id/tempCityText"
         android:layout_alignStart="@+id/tempCityText"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/refreshButton"
+        android:background="@mipmap/btnrefresh"
+        android:layout_above="@+id/cityNameText"
+        android:layout_toEndOf="@+id/windText"/>
+
 </RelativeLayout>

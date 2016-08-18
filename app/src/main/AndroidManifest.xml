@@ -16,6 +16,10 @@
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>
 
+            <intent-filter>
+                <action android:name="ru.kaefik.isaifutdinov.an_weather_widget.FORCE_WIDGET_UPDATE"/>
+            </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/an_weather_widget_info"/>

@@ -10,11 +10,16 @@ package ru.kaefik.isaifutdinov.an_weather_widget;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
 import android.widget.TextView;
 
+import ru.kaefik.isaifutdinov.an_weather_widget.Services.GetWeatherCityService;
 import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel;
 
 /**
@@ -22,7 +27,9 @@ import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel;
  */
 public class AnWeatherWidget extends AppWidgetProvider {
 
-    public CityModel mCityModel;
+    public static CityModel mCityModel;
+
+    BroadcastReceiver br;
 
     private TextView cityNameText;
     private TextView windText;
@@ -30,28 +37,31 @@ public class AnWeatherWidget extends AppWidgetProvider {
     private TextView timeRefreshText;
     private ImageView weatherImageView;
 
+    // параметры для приема и передачи значений через intent
+    public final static String PARAM_CITY = "city";
+    public final static String PARAM_TEMP = "temp";
+    public final static String PARAM_WIND = "wind";
+    public final static String PARAM_TIMEREFRESH = "timeRefresh";
+    public final static String PARAM_WEATHERIMAGE = "weatherImage";
 
+    public final static String FORCE_WIDGET_UPDATE = "ru.kaefik.isaifutdinov.an_weather_widget.FORCE_WIDGET_UPDATE";
 
-
-
+    public static String TAG_SERVICE = "AnWeatherWidget";
 
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-//        mCityModel = new CityModel("Kazan");
-//        mCityModel.setId("76d6de6e46c704733f12c8738307dbb5");
-//        mCityModel.getHttpWeather();
 
-//        CharSequence widgetText =;
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.an_weather_widget);
-
-
-//        views.setTextViewText(R.id.cityNameText, );
+        String nameCity = "Apastovo";
+        Intent intent;
+        intent = new Intent(context, GetWeatherCityService.class);
+        intent.putExtra(PARAM_CITY, nameCity);
+        context.startService(intent);
 
 
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
+        Log.i(TAG_SERVICE, "обновление виджета  updateAppWidget");
+
+
     }
 
     @Override
@@ -63,44 +73,46 @@ public class AnWeatherWidget extends AppWidgetProvider {
     }
 
     @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+        if (FORCE_WIDGET_UPDATE.equals(intent.getAction())) {
+
+            String nameCity = intent.getStringExtra(PARAM_CITY);
+            String tempCity = intent.getStringExtra(PARAM_TEMP);
+            String windCity = intent.getStringExtra(PARAM_WIND);
+            String timeRefreshCity = intent.getStringExtra(PARAM_TIMEREFRESH);
+            String weatherImageCity = intent.getStringExtra(PARAM_WEATHERIMAGE);
+
+            //отображение порлученных данных
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            ComponentName thisWidget = new ComponentName(context, AnWeatherWidget.class);
+            int[] appWidgetId = appWidgetManager.getAppWidgetIds(thisWidget);
+
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.an_weather_widget);
+            views.setTextViewText(R.id.cityNameText, nameCity);
+            views.setTextViewText(R.id.tempCityText, tempCity);
+            views.setTextViewText(R.id.windText, windCity);
+            views.setTextViewText(R.id.timeRefreshText, timeRefreshCity);
+            Log.i(TAG_SERVICE,nameCity+" "+tempCity);
+            //TODO: сделать отображение рисунка погоды
+            appWidgetManager.updateAppWidget(appWidgetId, views);
+        }
+
+
+    }
+
+    @Override
     public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
-//        mCityModel = new CityModel("Kazan");
-//        mCityModel.setMYAPPID("76d6de6e46c704733f12c8738307dbb5");
-//        try {
-//            mCityModel.getHttpWeather();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+        mCityModel = new CityModel("Apastovo");
+        mCityModel.setMYAPPID("76d6de6e46c704733f12c8738307dbb5");
     }
 
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
-    }
-
-    public void refreshDataView(CityModel cityModel) {
+//        context.stopService(GetWeatherCityService.class);
 
     }
+
 }
 
-
-//public class PingWidget extends AppWidgetProvider{
-//    public static String FORCE_WIDGET_UPDATE = "com.example.pinger.FORCE_WIDGET_UPDATE";
-//    @Override
-//    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-//        startService(context);
-//    }
-//    @Override
-//    public void onReceive(Context context, Intent intent){
-//        super.onReceive(context, intent);
-//        if (FORCE_WIDGET_UPDATE.equals(intent.getAction())) updateWidget(context);
-//    }
-//    private void updateWidget(Context context) {
-//        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-//        ComponentName thisWidget = new ComponentName(context, PingWidget.class);
-//        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
-//        drawWidget(context, appWidgetManager, appWidgetIds);
-//    }
-//    ...
-//}
