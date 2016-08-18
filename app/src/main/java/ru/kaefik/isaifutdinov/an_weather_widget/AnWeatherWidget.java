@@ -14,6 +14,7 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
@@ -21,28 +22,31 @@ import android.widget.TextView;
 
 import ru.kaefik.isaifutdinov.an_weather_widget.Services.GetWeatherCityService;
 import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel;
+import ru.kaefik.isaifutdinov.an_weather_widget.utils.Utils;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class AnWeatherWidget extends AppWidgetProvider {
 
-    public static CityModel mCityModel;
+    private CityModel mCityModel;
 
-    BroadcastReceiver br;
+//    BroadcastReceiver br;
 
-    private TextView cityNameText;
-    private TextView windText;
-    private TextView tempCityText;
-    private TextView timeRefreshText;
-    private ImageView weatherImageView;
+//    private TextView cityNameText;
+//    private TextView windText;
+//    private TextView tempCityText;
+//    private TextView timeRefreshText;
+//    private ImageView weatherImageView;
 
     // параметры для приема и передачи значений через intent
     public final static String PARAM_CITY = "city";
+//    public final static String PARAM_APPID = "appID";
     public final static String PARAM_TEMP = "temp";
     public final static String PARAM_WIND = "wind";
     public final static String PARAM_TIMEREFRESH = "timeRefresh";
     public final static String PARAM_WEATHERIMAGE = "weatherImage";
+    public final static String PARAM_DESCWEATHER = "descriptionWeather";
 
     public final static String FORCE_WIDGET_UPDATE = "ru.kaefik.isaifutdinov.an_weather_widget.FORCE_WIDGET_UPDATE";
 
@@ -52,7 +56,7 @@ public class AnWeatherWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
-        String nameCity = "Apastovo";
+        String nameCity = "Kazan";
         Intent intent;
         intent = new Intent(context, GetWeatherCityService.class);
         intent.putExtra(PARAM_CITY, nameCity);
@@ -82,6 +86,9 @@ public class AnWeatherWidget extends AppWidgetProvider {
             String windCity = intent.getStringExtra(PARAM_WIND);
             String timeRefreshCity = intent.getStringExtra(PARAM_TIMEREFRESH);
             String weatherImageCity = intent.getStringExtra(PARAM_WEATHERIMAGE);
+            String descriptionWeather = intent.getStringExtra(PARAM_DESCWEATHER);
+
+            Log.i(TAG_SERVICE,"onReceive " +nameCity+" -> "+tempCity);
 
             //отображение порлученных данных
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
@@ -93,8 +100,10 @@ public class AnWeatherWidget extends AppWidgetProvider {
             views.setTextViewText(R.id.tempCityText, tempCity);
             views.setTextViewText(R.id.windText, windCity);
             views.setTextViewText(R.id.timeRefreshText, timeRefreshCity);
-            Log.i(TAG_SERVICE,nameCity+" "+tempCity);
+            views.setTextViewText(R.id.descriptionWeatherText, descriptionWeather);
             //TODO: сделать отображение рисунка погоды
+            views.setImageViewUri(R.id.weatherImageView,Uri.parse("android.resource://ru.kaefik.isaifutdinov.an_weather_widget/mipmap/" + "weather" + weatherImageCity));
+//            imageWeather.setImageURI();
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
 
@@ -103,8 +112,10 @@ public class AnWeatherWidget extends AppWidgetProvider {
 
     @Override
     public void onEnabled(Context context) {
-        mCityModel = new CityModel("Apastovo");
-        mCityModel.setMYAPPID("76d6de6e46c704733f12c8738307dbb5");
+        //TODO: сделать запуск activity чтобы выбрать текущий город для виджета
+//        mCityModel = new CityModel("Kazan");
+//        mCityModel.setMYAPPID("76d6de6e46c704733f12c8738307dbb5");
+        Utils.createTranslateWeatherDescription();
     }
 
     @Override

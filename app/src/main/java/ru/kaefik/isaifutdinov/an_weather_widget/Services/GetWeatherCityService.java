@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.util.concurrent.ExecutionException;
@@ -13,10 +14,11 @@ import java.util.concurrent.TimeoutException;
 
 import ru.kaefik.isaifutdinov.an_weather_widget.AnWeatherWidget;
 import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel;
+import ru.kaefik.isaifutdinov.an_weather_widget.utils.Utils;
 
 public class GetWeatherCityService extends Service {
 
-    public static String TAG_SERVICE ="GetWeatherCityService";
+//    public static String AnWeatherWidget.TAG_SERVICE ="GetWeatherCityService";
 
     private CityModel mCityModel;
     private cityInfoAsyncTask mTask;
@@ -44,13 +46,16 @@ public class GetWeatherCityService extends Service {
 
     // обновление данных о погоде
     public void refreshDataWeather() throws ExecutionException, InterruptedException {
+        Log.i(AnWeatherWidget.TAG_SERVICE,"start refreshDataWeather()");
         if (mTask != null) {
             mTask.cancel(true);
         }
         mTask = new cityInfoAsyncTask();
         try {
+            Log.i(AnWeatherWidget.TAG_SERVICE,"mTask.execute()");
             mTask.execute();
             mCityModel = mTask.get(3, TimeUnit.SECONDS);
+//            Log.i(AnWeatherWidget.TAG_SERVICE,"mTask.execute()");
         } catch (TimeoutException e) {
 //            Toast.makeText(this, "Ошибка обновления данных", Toast.LENGTH_SHORT);
         }
@@ -65,17 +70,16 @@ public class GetWeatherCityService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        Log.i(TAG_SERVICE,"Start service GetWeatherCityService");
+        Log.i(AnWeatherWidget.TAG_SERVICE,"Start service GetWeatherCityService");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.i(TAG_SERVICE,"Start onStartCommand  GetWeatherCityService");
+        Log.i(AnWeatherWidget.TAG_SERVICE,"Start onStartCommand  GetWeatherCityService");
         mCityModel = new CityModel();
         mCityModel.setMYAPPID("76d6de6e46c704733f12c8738307dbb5");
         // получение данных через intent: имя города который нужно обновить
         mCityModel.setName(intent.getStringExtra(AnWeatherWidget.PARAM_CITY));
-        Log.i(TAG_SERVICE,"имя города: "+mCityModel.getName());
 
         //обновление погоды
         try {
@@ -85,17 +89,18 @@ public class GetWeatherCityService extends Service {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        Log.i(AnWeatherWidget.TAG_SERVICE,"после refreshDataWeather() имя города: "+mCityModel.getName()+" -> "+mCityModel.getTemp());
+
+        Log.i(AnWeatherWidget.TAG_SERVICE,"start refreshWidget");
         refreshWidget();
-
-        Log.i(TAG_SERVICE,"start refreshWidget");
-
+        stopSelf();
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i(TAG_SERVICE,"Destroy GetWeatherCityService");
+        Log.i(AnWeatherWidget.TAG_SERVICE,"Destroy GetWeatherCityService");
     }
 
     @Override
@@ -106,14 +111,26 @@ public class GetWeatherCityService extends Service {
 
     // обновление виджета используя широковещательные сообщения
     private void refreshWidget(){
+        Log.i(AnWeatherWidget.TAG_SERVICE,"refreshWidget имя города: "+mCityModel.getName()+" -> "+mCityModel.getTemp());
+        // отправка виджету погоды данные о погоде
         Intent intent = new Intent(AnWeatherWidget.FORCE_WIDGET_UPDATE);
         intent.putExtra(AnWeatherWidget.PARAM_CITY,mCityModel.getName());
-        intent.putExtra(AnWeatherWidget.PARAM_TEMP,mCityModel.getTemp());
+        intent.putExtra(AnWeatherWidget.PARAM_TEMP,Float.toString(mCityModel.getTemp()));
+        intent.putExtra(AnWeatherWidget.PARAM_TIMEREFRESH,mCityModel.getTimeRefresh());
+        intent.putExtra(AnWeatherWidget.PARAM_DESCWEATHER,mCityModel.getWeather("description"));
+        intent.putExtra(AnWeatherWidget.PARAM_WEATHERIMAGE,mCityModel.getWeather("icon"));
+        intent.putExtra(AnWeatherWidget.PARAM_WIND, Utils.windGradus2Rumb(mCityModel.getWinddirection())+" ("+Float.toString(mCityModel.getWindspeed())+" м/с)");
+
+
+
         //TODO: добавить передача остальных полей
         sendBroadcast(intent);
     }
 
 
-
-
+    @Override
+    public boolean stopService(Intent name) {
+        Log.i(AnWeatherWidget.TAG_SERVICE,"Stop service GetWeatherCityService");
+        return super.stopService(name);
+    }
 }

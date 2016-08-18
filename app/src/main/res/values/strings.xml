@@ -6,4 +6,5 @@
     <string name="temp">25 C</string>
     <string name="wind">СВ (4 м/с)</string>
     <string name="_25_08_2016_11_58">25.08.2016 11:58</string>
+    <string name="descriptionWeather">облачно</string>
 </resources>
