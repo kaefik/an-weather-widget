@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:initialKeyguardLayout="@layout/an_weather_widget"
-                    android:initialLayout="@layout/an_weather_widget"
-                    android:minHeight="70dp"
-                    android:minWidth="280dp"
-                    android:previewImage="@drawable/example_appwidget_preview"
-                    android:resizeMode="horizontal"
-                    android:updatePeriodMillis="8640000"
-                    android:widgetCategory="home_screen">
+    android:initialKeyguardLayout="@layout/an_weather_widget"
+    android:initialLayout="@layout/an_weather_widget"
+    android:minHeight="70dp"
+    android:minWidth="280dp"
+    android:previewImage="@drawable/example_appwidget_preview"
+    android:resizeMode="horizontal"
+    android:updatePeriodMillis="8640000"
+    android:widgetCategory="home_screen">
 </appwidget-provider>

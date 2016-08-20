@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="ru.kaefik.isaifutdinov.an_weather_widget">
+    package="ru.kaefik.isaifutdinov.an_weather_widget">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -13,27 +13,30 @@
         android:theme="@style/AppTheme">
         <receiver android:name=".AnWeatherWidget">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-
             <intent-filter>
-                <action android:name="ru.kaefik.isaifutdinov.an_weather_widget.FORCE_WIDGET_UPDATE"/>
+                <action android:name="ru.kaefik.isaifutdinov.an_weather_widget.FORCE_WIDGET_UPDATE" />
             </intent-filter>
-
             <intent-filter>
-                <action android:name="ru.kaefik.isaifutdinov.an_weather_widget.CLICK_WIDGET_BUTTON"/>
+                <action android:name="ru.kaefik.isaifutdinov.an_weather_widget.CLICK_WIDGET_BUTTON" />
             </intent-filter>
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/an_weather_widget_info"/>
+                android:resource="@xml/an_weather_widget_info" />
         </receiver>
 
         <service
             android:name=".Services.GetWeatherCityService"
             android:enabled="true"
-            android:exported="true">
-        </service>
+            android:exported="true" />
+
+        <activity android:name=".ConfigActivity">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
