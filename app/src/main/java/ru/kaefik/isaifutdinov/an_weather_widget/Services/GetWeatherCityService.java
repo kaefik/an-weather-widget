@@ -112,7 +112,7 @@ public class GetWeatherCityService extends Service {
         // отправка виджету погоды данные о погоде
         Intent intent = new Intent(AnWeatherWidget.FORCE_WIDGET_UPDATE);
         intent.putExtra(AnWeatherWidget.PARAM_CITY,mCityModel.getName());
-        intent.putExtra(AnWeatherWidget.PARAM_TEMP,Float.toString(mCityModel.getTemp()));
+        intent.putExtra(AnWeatherWidget.PARAM_TEMP,Float.toString(mCityModel.getTemp())+"C");
         intent.putExtra(AnWeatherWidget.PARAM_TIMEREFRESH,mCityModel.getTimeRefresh());
         intent.putExtra(AnWeatherWidget.PARAM_DESCWEATHER,mCityModel.getWeather("description"));
         intent.putExtra(AnWeatherWidget.PARAM_WEATHERIMAGE,mCityModel.getWeather("icon"));

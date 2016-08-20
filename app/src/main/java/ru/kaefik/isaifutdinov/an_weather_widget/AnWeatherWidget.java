@@ -32,7 +32,7 @@ public class AnWeatherWidget extends AppWidgetProvider {
 
     // параметры для приема и передачи значений через intent
     public final static String PARAM_CITY = "city";
-//    public final static String PARAM_APPID = "appID";
+    //    public final static String PARAM_APPID = "appID";
     public final static String PARAM_TEMP = "temp";
     public final static String PARAM_WIND = "wind";
     public final static String PARAM_TIMEREFRESH = "timeRefresh";
@@ -64,10 +64,11 @@ public class AnWeatherWidget extends AppWidgetProvider {
         // END - вешаем на кпонку событие CLICK_WIDGET_BUTTON чтобы его обработать в методе onReceive
 
         String nameCity = "Kazan";
-        Intent intent;
-        intent = new Intent(context, GetWeatherCityService.class);
-        intent.putExtra(PARAM_CITY, nameCity);
-        context.startService(intent);
+        startGetWeatherCityService(context,new CityModel(nameCity));
+//        Intent intent;
+//        intent = new Intent(context, GetWeatherCityService.class);
+//        intent.putExtra(PARAM_CITY, nameCity);
+//        context.startService(intent);
 
 
         Log.i(TAG_SERVICE, "обновление виджета  updateAppWidget");
@@ -75,11 +76,18 @@ public class AnWeatherWidget extends AppWidgetProvider {
 
     }
 
+    // запуск сервиса GetWeatherCityService обновления данных города
+    public static void startGetWeatherCityService(Context context, CityModel cityModel) {
+        Intent intent;
+        intent = new Intent(context, GetWeatherCityService.class);
+        intent.putExtra(PARAM_CITY, cityModel.getName());
+        context.startService(intent);
+    }
+
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
-
 
 
             updateAppWidget(context, appWidgetManager, appWidgetId);
@@ -98,7 +106,7 @@ public class AnWeatherWidget extends AppWidgetProvider {
             String weatherImageCity = intent.getStringExtra(PARAM_WEATHERIMAGE);
             String descriptionWeather = intent.getStringExtra(PARAM_DESCWEATHER);
 
-            Log.i(TAG_SERVICE,"onReceive " +nameCity+" -> "+tempCity);
+            Log.i(TAG_SERVICE, "onReceive " + nameCity + " -> " + tempCity);
 
             //отображение порлученных данных
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
@@ -112,12 +120,15 @@ public class AnWeatherWidget extends AppWidgetProvider {
             views.setTextViewText(R.id.timeRefreshText, timeRefreshCity);
             views.setTextViewText(R.id.descriptionWeatherText, descriptionWeather);
             //TODO: сделать отображение рисунка погоды
-            views.setImageViewUri(R.id.weatherImageView,Uri.parse("android.resource://ru.kaefik.isaifutdinov.an_weather_widget/mipmap/" + "weather" + weatherImageCity));
+            views.setImageViewUri(R.id.weatherImageView, Uri.parse("android.resource://ru.kaefik.isaifutdinov.an_weather_widget/mipmap/" + "weather" + weatherImageCity));
 //            imageWeather.setImageURI();
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
         if (CLICK_WIDGET_BUTTON.equals(intent.getAction())) {
-            Log.i(TAG_SERVICE, "нажали кнопку");
+            Log.i(TAG_SERVICE, "нажали кнопку обновление данных");
+
+            String nameCity = "Kazan";
+            startGetWeatherCityService(context,new CityModel(nameCity));
 
         }
 

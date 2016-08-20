@@ -95,8 +95,7 @@
         android:layout_marginRight="8dp"
         android:gravity="center_vertical|right"
         android:textIsSelectable="false"
-        android:maxLength="30"
         android:layout_alignTop="@+id/timeRefreshText"
-        android:layout_alignEnd="@+id/cityNameText" />
+        android:layout_toEndOf="@+id/weatherImageView" />
 
 </RelativeLayout>
