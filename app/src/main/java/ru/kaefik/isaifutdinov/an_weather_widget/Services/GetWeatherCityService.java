@@ -39,8 +39,6 @@ public class GetWeatherCityService extends Service {
         @Override
         protected void onPostExecute(CityModel cityModel) {
             super.onPostExecute(cityModel);
-//            refreshData2View(cityModel);
-
         }
     }
 
@@ -59,7 +57,6 @@ public class GetWeatherCityService extends Service {
         } catch (TimeoutException e) {
 //            Toast.makeText(this, "Ошибка обновления данных", Toast.LENGTH_SHORT);
         }
-//        refreshData2View(mCityDataWeather);
     }
 
 
@@ -120,10 +117,6 @@ public class GetWeatherCityService extends Service {
         intent.putExtra(AnWeatherWidget.PARAM_DESCWEATHER,mCityModel.getWeather("description"));
         intent.putExtra(AnWeatherWidget.PARAM_WEATHERIMAGE,mCityModel.getWeather("icon"));
         intent.putExtra(AnWeatherWidget.PARAM_WIND, Utils.windGradus2Rumb(mCityModel.getWinddirection())+" ("+Float.toString(mCityModel.getWindspeed())+" м/с)");
-
-
-
-        //TODO: добавить передача остальных полей
         sendBroadcast(intent);
     }
 

@@ -8,6 +8,7 @@
 
 package ru.kaefik.isaifutdinov.an_weather_widget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.BroadcastReceiver;
@@ -19,25 +20,15 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RemoteViews;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ru.kaefik.isaifutdinov.an_weather_widget.Services.GetWeatherCityService;
 import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel;
 import ru.kaefik.isaifutdinov.an_weather_widget.utils.Utils;
 
-/**
- * Implementation of App Widget functionality.
- */
 public class AnWeatherWidget extends AppWidgetProvider {
 
     private CityModel mCityModel;
-
-//    BroadcastReceiver br;
-
-//    private TextView cityNameText;
-//    private TextView windText;
-//    private TextView tempCityText;
-//    private TextView timeRefreshText;
-//    private ImageView weatherImageView;
 
     // параметры для приема и передачи значений через intent
     public final static String PARAM_CITY = "city";
@@ -48,13 +39,29 @@ public class AnWeatherWidget extends AppWidgetProvider {
     public final static String PARAM_WEATHERIMAGE = "weatherImage";
     public final static String PARAM_DESCWEATHER = "descriptionWeather";
 
+    // действие принудилельного обновления данных виджета
     public final static String FORCE_WIDGET_UPDATE = "ru.kaefik.isaifutdinov.an_weather_widget.FORCE_WIDGET_UPDATE";
+    // действие на нажатие кпонки на виджете (обновление данных)
+    public final static String CLICK_WIDGET_BUTTON = "ru.kaefik.isaifutdinov.an_weather_widget.CLICK_WIDGET_BUTTON";
 
     public static String TAG_SERVICE = "AnWeatherWidget";
 
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
+
+        // вешаем на кпонку событие CLICK_WIDGET_BUTTON чтобы его обработать в методе onReceive
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.an_weather_widget);
+        //Подготавливаем Intent для Broadcast
+        Intent active = new Intent(context, AnWeatherWidget.class);
+        active.setAction(CLICK_WIDGET_BUTTON);
+        //создаем наше событие
+        PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
+        //регистрируем наше событие
+        remoteViews.setOnClickPendingIntent(R.id.refreshButton, actionPendingIntent);
+        //обновляем виджет
+        appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
+        // END - вешаем на кпонку событие CLICK_WIDGET_BUTTON чтобы его обработать в методе onReceive
 
         String nameCity = "Kazan";
         Intent intent;
@@ -72,6 +79,9 @@ public class AnWeatherWidget extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
+
+
+
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
     }
@@ -106,6 +116,10 @@ public class AnWeatherWidget extends AppWidgetProvider {
 //            imageWeather.setImageURI();
             appWidgetManager.updateAppWidget(appWidgetId, views);
         }
+        if (CLICK_WIDGET_BUTTON.equals(intent.getAction())) {
+            Log.i(TAG_SERVICE, "нажали кнопку");
+
+        }
 
 
     }
@@ -121,8 +135,6 @@ public class AnWeatherWidget extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
-//        context.stopService(GetWeatherCityService.class);
-
     }
 
 }
