@@ -8,12 +8,16 @@
 package ru.kaefik.isaifutdinov.an_weather_widget;
 
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.appwidget.AppWidgetManager;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -28,11 +32,14 @@ public class ConfigActivity extends AppCompatActivity {
 
     private ListView mNameCity;
     List<String> mListDataCity; // список городов
+    public  int mAppWidgetId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_config);
+
+        setResult(RESULT_CANCELED);
 
         mNameCity = (ListView) findViewById(R.id.cityListView);
 
@@ -47,6 +54,30 @@ public class ConfigActivity extends AppCompatActivity {
 
         final CityModelListAdapter adapter = new CityModelListAdapter(this, mListDataCity);
         mNameCity.setAdapter(adapter);
+
+
+        //-----------------------
+        mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID);
+//            showProgressDialog();
+//            saveTheUserValueInPref(selectedCategory, sourceAndLanguage,
+//                    mAppWidgetId);
+//            getDataToLoadInWidget = new GetDataToLoadInWidget(
+//                    ConfigurationActivity.this, selectedSource,
+//                    selectedLanguage, selectedCategory);
+        }
+
+        final AppWidgetManager widgetManager = AppWidgetManager.getInstance(this);
+        final RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.an_weather_widget);
+
+//        if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
+//            finish();
+//        }
+        //-----------------------
 
         // Обработка события на клик по элементу списка
         mNameCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,31 +97,21 @@ public class ConfigActivity extends AppCompatActivity {
         mNameCity.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-//                final CityModel selectedItem = (CityModel) parent.getItemAtPosition(position);
-//                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-//                builder.setTitle(R.string.strDeleteIte)
-//                        .setMessage(getString(R.string.strDeleteCityQuestion) + selectedItem.getName() + "?")
-//                        .setCancelable(false)
-//                        .setPositiveButton(R.string.strDel,
-//                                new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                        mListDataCity.remove(position);
-//                                        mNameCity.invalidateViews();
-//                                        saveListCity();
-//                                        saveCityInfoToFile();
-//                                        Toast.makeText(getApplicationContext(), getString(R.string.strgorod) + "  " + selectedItem.getName() + " удалён.", Toast.LENGTH_SHORT).show();
-//                                    }
-//                                })
-//                        .setNegativeButton(R.string.strOstatsya,
-//                                new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                    }
-//                                });
-//                AlertDialog alert = builder.create();
-//                alert.show();
+                final String selectedItem = (String) parent.getItemAtPosition(position);
+//                Intent intent = new Intent(Intent.ACTION_VIEW,selectedItem);
+//                PendingIntent pending = PendingIntent.getActivity(this,0,intent,0);
+                widgetManager.updateAppWidget(mAppWidgetId,remoteViews);
+
+                Intent resulValue = new Intent();
+                resulValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,mAppWidgetId);
+                setResult(RESULT_OK,resulValue);
+                finish();
                 return true;
             }
         });
+
+
+
 
     }
 }
