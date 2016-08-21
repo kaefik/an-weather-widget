@@ -83,35 +83,29 @@ public class ConfigActivity extends AppCompatActivity {
         mNameCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String tmpCityModel = adapter.getCityModel(position);
-//                try {
-//                    //  startActivityForResult(tmpCityModel.putExtraIntent(getApplicationContext(), cityInfoActivity.class), RequestCode.REQUEST_CODE_CITY_WEATHER);
-//                } catch (ParseException e) {
-//                    // TODO: нужно обработать исключение
-//                    e.printStackTrace();
-//                }
-            }
-        });
-
-        // Обработка долгого нажатия на элемент
-        mNameCity.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                final String selectedItem = (String) parent.getItemAtPosition(position);
+                String cityNameString = adapter.getCityModel(position);
+//                 final String selectedItem = (String) parent.getItemAtPosition(position);
 //                Intent intent = new Intent(Intent.ACTION_VIEW,selectedItem);
 //                PendingIntent pending = PendingIntent.getActivity(this,0,intent,0);
+                remoteViews.setTextViewText(R.id.cityNameText,cityNameString);
                 widgetManager.updateAppWidget(mAppWidgetId,remoteViews);
 
                 Intent resulValue = new Intent();
                 resulValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,mAppWidgetId);
                 setResult(RESULT_OK,resulValue);
                 finish();
-                return true;
+//
             }
         });
 
-
-
+        // Обработка долгого нажатия на элемент
+//        mNameCity.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+//
+//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+//                return true;
+//            }
+//        }
+//    );
 
     }
 }

@@ -126,7 +126,7 @@ public class AnWeatherWidget extends AppWidgetProvider {
         }
         if (CLICK_WIDGET_BUTTON.equals(intent.getAction())) {
             Log.i(TAG_SERVICE, "нажали кнопку обновление данных");
-
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.an_weather_widget);
             String nameCity = "Kazan";
             startGetWeatherCityService(context,new CityModel(nameCity));
 
