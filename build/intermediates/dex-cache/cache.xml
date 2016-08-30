@@ -26,7 +26,7 @@
         jar="/home/oilnur/prj/an-weather-widget/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         revision="24.0.0"
-        sha1="f618b76e09546e9e6644e187bfed68e64ad9bc8d">
+        sha1="bdeb33f80ab106f2d343913cccf3bd5709138045">
         <dex dex="/home/oilnur/prj/an-weather-widget/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_b272348ebcfca2e57cd3c5ee17c0ea95fc13ee44/classes.dex" />
     </item>
     <item
@@ -47,7 +47,7 @@
         jar="/home/oilnur/prj/an-weather-widget/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         revision="24.0.0"
-        sha1="f2ba91e6e68a203b1f7155cafdcd7b9071287bee">
+        sha1="0991f309170e700d827ad69b06578585c3feb842">
         <dex dex="/home/oilnur/prj/an-weather-widget/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_03cf01b9e549a55824773a5419346bbbfc7f9eee/classes.dex" />
     </item>
     <item

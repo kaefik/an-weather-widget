@@ -10,10 +10,13 @@ package ru.kaefik.isaifutdinov.an_weather_widget;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -23,6 +26,7 @@ import android.widget.Toast;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 import ru.kaefik.isaifutdinov.an_weather_widget.adapter.CityModelListAdapter;
 import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel;
@@ -32,11 +36,16 @@ public class ConfigActivity extends AppCompatActivity {
 
     private ListView mNameCity;
     List<String> mListDataCity; // список городов
-    public  int mAppWidgetId;
+    public int mAppWidgetId;
+    private SharedPreferences mSPref;
+
+    public static String TAG_SERVICE = "AnWeatherWidget";
+    public static final String WIDGET_PREF = "anweatherwidgetconfig";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.i(TAG_SERVICE, "onCreate  ConfigActivity");
         setContentView(R.layout.activity_config);
 
         setResult(RESULT_CANCELED);
@@ -63,20 +72,12 @@ public class ConfigActivity extends AppCompatActivity {
         if (extras != null) {
             mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
                     AppWidgetManager.INVALID_APPWIDGET_ID);
-//            showProgressDialog();
-//            saveTheUserValueInPref(selectedCategory, sourceAndLanguage,
-//                    mAppWidgetId);
-//            getDataToLoadInWidget = new GetDataToLoadInWidget(
-//                    ConfigurationActivity.this, selectedSource,
-//                    selectedLanguage, selectedCategory);
         }
 
         final AppWidgetManager widgetManager = AppWidgetManager.getInstance(this);
         final RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.an_weather_widget);
+        final Context context= this;
 
-//        if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
-//            finish();
-//        }
         //-----------------------
 
         // Обработка события на клик по элементу списка
@@ -84,15 +85,31 @@ public class ConfigActivity extends AppCompatActivity {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String cityNameString = adapter.getCityModel(position);
-//                 final String selectedItem = (String) parent.getItemAtPosition(position);
-//                Intent intent = new Intent(Intent.ACTION_VIEW,selectedItem);
-//                PendingIntent pending = PendingIntent.getActivity(this,0,intent,0);
-                remoteViews.setTextViewText(R.id.cityNameText,cityNameString);
-                widgetManager.updateAppWidget(mAppWidgetId,remoteViews);
+
+                Log.i(TAG_SERVICE, " OnItemClick  ConfigActivity -> выбран город "+cityNameString);
+
+                saveStringParametersToCfg("nameCity", cityNameString);
+
+                // вешаем на кпонку событие CLICK_WIDGET_BUTTON чтобы его обработать в методе onReceive
+                RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.an_weather_widget);
+                //Подготавливаем Intent для Broadcast
+                Intent active = new Intent(context, AnWeatherWidget.class);
+                active.setAction(AnWeatherWidget.CLICK_WIDGET_BUTTON);
+                //создаем наше событие
+                PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
+                //регистрируем наше событие
+                remoteViews.setOnClickPendingIntent(R.id.refreshButton, actionPendingIntent);
+                //обновляем виджет
+                widgetManager.updateAppWidget(mAppWidgetId, remoteViews);
+                // END - вешаем на кпонку событие CLICK_WIDGET_BUTTON чтобы его обработать в методе onReceive
+
+//                remoteViews.setTextViewText(R.id.cityNameText,cityNameString);
+                widgetManager.updateAppWidget(mAppWidgetId, remoteViews);
+
 
                 Intent resulValue = new Intent();
-                resulValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,mAppWidgetId);
-                setResult(RESULT_OK,resulValue);
+                resulValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+                setResult(RESULT_OK, resulValue);
                 finish();
 //
             }
@@ -108,4 +125,26 @@ public class ConfigActivity extends AppCompatActivity {
 //    );
 
     }
+
+
+    //сохранение параметра-строки  в файл параметров
+    public void saveStringParametersToCfg(String parameters, String values) {
+        mSPref = getSharedPreferences(WIDGET_PREF, MODE_PRIVATE);
+        if (mSPref != null) {
+            SharedPreferences.Editor ed = mSPref.edit();
+            ed.putString(parameters, values);
+            ed.apply();
+        }
+    }
+
+    // загрузка строки из файл параметров
+    public String loadStringParametersFromFile(String parameters) {
+        String resSet = "";
+        mSPref = getSharedPreferences(WIDGET_PREF, MODE_PRIVATE);
+        resSet = mSPref.getString(parameters, "");
+        if (resSet == null) resSet = "";
+        return resSet;
+    }
+
+
 }
