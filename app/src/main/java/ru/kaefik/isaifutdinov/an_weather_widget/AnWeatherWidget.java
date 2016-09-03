@@ -11,17 +11,13 @@ package ru.kaefik.isaifutdinov.an_weather_widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.util.Log;
-import android.widget.ImageView;
 import android.widget.RemoteViews;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import ru.kaefik.isaifutdinov.an_weather_widget.Services.GetWeatherCityService;
 import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel;
@@ -31,9 +27,6 @@ import static android.content.Context.*;
 
 
 public class AnWeatherWidget extends AppWidgetProvider {
-
-    private CityModel mCityModel;
-//    private SharedPreferences mSPref;
 
     // параметры для приема и передачи значений через intent
     public final static String PARAM_CITY = "city";
@@ -95,8 +88,6 @@ public class AnWeatherWidget extends AppWidgetProvider {
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
-
-
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
     }
@@ -131,7 +122,7 @@ public class AnWeatherWidget extends AppWidgetProvider {
                     views.setTextViewText(R.id.descriptionWeatherText, descriptionWeather);
                     views.setImageViewUri(R.id.weatherImageView, Uri.parse("android.resource://ru.kaefik.isaifutdinov.an_weather_widget/mipmap/" + "weather" + weatherImageCity));
 
-                    // вешаем на кпонку событие CLICK_WIDGET_BUTTON чтобы его обработать в методе onReceive
+                    // вешаем на кнопку событие CLICK_WIDGET_BUTTON чтобы его обработать в методе onReceive
                     //Подготавливаем Intent для Broadcast
                     Intent active = new Intent(context, AnWeatherWidget.class);
                     active.setAction(CLICK_WIDGET_BUTTON);
@@ -140,7 +131,6 @@ public class AnWeatherWidget extends AppWidgetProvider {
                     //регистрируем наше событие
                     views.setOnClickPendingIntent(R.id.refreshButton, actionPendingIntent);
                     //обновляем виджет
-//                    appWidgetManager.updateAppWidget(appWidgetId, views);
                     // END - вешаем на кпонку событие CLICK_WIDGET_BUTTON чтобы его обработать в методе onReceive
 
                     appWidgetManager.updateAppWidget(appWidgetId[i], views);
@@ -162,13 +152,9 @@ public class AnWeatherWidget extends AppWidgetProvider {
             for (int i = 0; i < appWidgetId.length; i++) {
                 Log.i(TAG_SERVICE, "id виждета при обновлении виджетов -> " + String.valueOf(appWidgetId[i]));
                 String nameCity = loadStringParametersFromFile(context, String.valueOf(appWidgetId[i]));
-//            views.setTextViewText(R.id.cityNameText, nameCity);
                 startGetWeatherCityService(context, appWidgetId[i], new CityModel(nameCity));
             }
-
         }
-
-
     }
 
     @Override
@@ -199,11 +185,10 @@ public class AnWeatherWidget extends AppWidgetProvider {
 
     // загрузка строки из файл параметров
     public static String loadStringParametersFromFile(Context context, String parameters) {
-        String resSet = "";
-        SharedPreferences mSPref;
-        mSPref = context.getSharedPreferences(WIDGET_PREF, MODE_PRIVATE);
+        String resSet;
+        SharedPreferences mSPref=context.getSharedPreferences(WIDGET_PREF, MODE_PRIVATE);;
         resSet = mSPref.getString(parameters, "");
-        if (resSet == null) resSet = "";
+//        if (resSet == null) resSet = "";
         return resSet;
     }
 

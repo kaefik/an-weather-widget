@@ -20,24 +20,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.RemoteViews;
-import android.widget.Toast;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 import ru.kaefik.isaifutdinov.an_weather_widget.adapter.CityModelListAdapter;
-import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel;
 
 // конфигурирование виджета при помещении его на раб столе
 public class ConfigActivity extends AppCompatActivity {
 
     private ListView mNameCity;
-    List<String> mListDataCity; // список городов
-    public int mAppWidgetId;
-    private SharedPreferences mSPref;
+    private List<String> mListDataCity; // список городов
+    private int mAppWidgetId; // ID текущего виджета
+    private SharedPreferences mSPref;//файл настроек
+    private CityModelListAdapter adapter;
 
     public static String TAG_SERVICE = "AnWeatherWidget";
     public static final String WIDGET_PREF = "anweatherwidgetconfig";
@@ -61,9 +57,14 @@ public class ConfigActivity extends AppCompatActivity {
         mListDataCity.add("London");
         mListDataCity.add("Apastovo");
 
-        final CityModelListAdapter adapter = new CityModelListAdapter(this, mListDataCity);
+        adapter = new CityModelListAdapter(this, mListDataCity);
         mNameCity.setAdapter(adapter);
+    }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         //-----------------------
         mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
@@ -74,8 +75,6 @@ public class ConfigActivity extends AppCompatActivity {
                     AppWidgetManager.INVALID_APPWIDGET_ID);
         }
 
-        final AppWidgetManager widgetManager = AppWidgetManager.getInstance(this);
-//        final RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.an_weather_widget);
         final Context context = this;
 
         //-----------------------
@@ -89,36 +88,16 @@ public class ConfigActivity extends AppCompatActivity {
                 Log.i(TAG_SERVICE, " OnItemClick  ConfigActivity -> выбран город " + cityNameString + "  id виджета: " + String.valueOf(mAppWidgetId));
 
                 saveStringParametersToCfg(String.valueOf(mAppWidgetId), cityNameString);
-                Log.i(TAG_SERVICE, "");
-
-//                AnWeatherWidget.updateAppWidget(context, AppWidgetManager.getInstance(context), mAppWidgetId);
-
-//                // вешаем на кпонку событие CLICK_WIDGET_BUTTON чтобы его обработать в методе onReceive
-//                RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.an_weather_widget);
-//                //Подготавливаем Intent для Broadcast
-//                Intent active = new Intent(context, AnWeatherWidget.class);
-//                active.setAction(AnWeatherWidget.CLICK_WIDGET_BUTTON);
-//                //создаем наше событие
-//                PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
-//                //регистрируем наше событие
-//                remoteViews.setOnClickPendingIntent(R.id.refreshButton, actionPendingIntent);
-//                //обновляем виджет
-//                widgetManager.updateAppWidget(mAppWidgetId, remoteViews);
-////                sendBroadcast(active);
-
-                // END - вешаем на кпонку событие CLICK_WIDGET_BUTTON чтобы его обработать в методе onReceive
 
                 Intent resulValue = new Intent(AnWeatherWidget.CLICK_WIDGET_BUTTON);
                 resulValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
                 //обновление виджета после отработки ConfigActivity
-//                AnWeatherWidget.updateAppWidget(context, widgetManager,mAppWidgetId);
                 AnWeatherWidget.updateAppWidget(context, AppWidgetManager.getInstance(context),mAppWidgetId);
                 setResult(RESULT_OK, resulValue);
                 finish();
             }
         });
     }
-
 
     //сохранение параметра-строки  в файл параметров
     public void saveStringParametersToCfg(String parameters, String values) {
