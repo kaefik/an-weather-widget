@@ -75,8 +75,8 @@ public class ConfigActivity extends AppCompatActivity {
         }
 
         final AppWidgetManager widgetManager = AppWidgetManager.getInstance(this);
-        final RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.an_weather_widget);
-        final Context context= this;
+//        final RemoteViews remoteViews = new RemoteViews(this.getPackageName(), R.layout.an_weather_widget);
+        final Context context = this;
 
         //-----------------------
 
@@ -86,44 +86,37 @@ public class ConfigActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String cityNameString = adapter.getCityModel(position);
 
-                Log.i(TAG_SERVICE, " OnItemClick  ConfigActivity -> выбран город "+cityNameString);
+                Log.i(TAG_SERVICE, " OnItemClick  ConfigActivity -> выбран город " + cityNameString + "  id виджета: " + String.valueOf(mAppWidgetId));
 
-                saveStringParametersToCfg("nameCity", cityNameString);
+                saveStringParametersToCfg(String.valueOf(mAppWidgetId), cityNameString);
+                Log.i(TAG_SERVICE, "");
 
-                // вешаем на кпонку событие CLICK_WIDGET_BUTTON чтобы его обработать в методе onReceive
-                RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.an_weather_widget);
-                //Подготавливаем Intent для Broadcast
-                Intent active = new Intent(context, AnWeatherWidget.class);
-                active.setAction(AnWeatherWidget.CLICK_WIDGET_BUTTON);
-                //создаем наше событие
-                PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
-                //регистрируем наше событие
-                remoteViews.setOnClickPendingIntent(R.id.refreshButton, actionPendingIntent);
-                //обновляем виджет
-                widgetManager.updateAppWidget(mAppWidgetId, remoteViews);
+//                AnWeatherWidget.updateAppWidget(context, AppWidgetManager.getInstance(context), mAppWidgetId);
+
+//                // вешаем на кпонку событие CLICK_WIDGET_BUTTON чтобы его обработать в методе onReceive
+//                RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.an_weather_widget);
+//                //Подготавливаем Intent для Broadcast
+//                Intent active = new Intent(context, AnWeatherWidget.class);
+//                active.setAction(AnWeatherWidget.CLICK_WIDGET_BUTTON);
+//                //создаем наше событие
+//                PendingIntent actionPendingIntent = PendingIntent.getBroadcast(context, 0, active, 0);
+//                //регистрируем наше событие
+//                remoteViews.setOnClickPendingIntent(R.id.refreshButton, actionPendingIntent);
+//                //обновляем виджет
+//                widgetManager.updateAppWidget(mAppWidgetId, remoteViews);
+////                sendBroadcast(active);
+
                 // END - вешаем на кпонку событие CLICK_WIDGET_BUTTON чтобы его обработать в методе onReceive
 
-//                remoteViews.setTextViewText(R.id.cityNameText,cityNameString);
-                widgetManager.updateAppWidget(mAppWidgetId, remoteViews);
-
-
-                Intent resulValue = new Intent();
+                Intent resulValue = new Intent(AnWeatherWidget.CLICK_WIDGET_BUTTON);
                 resulValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+                //обновление виджета после отработки ConfigActivity
+//                AnWeatherWidget.updateAppWidget(context, widgetManager,mAppWidgetId);
+                AnWeatherWidget.updateAppWidget(context, AppWidgetManager.getInstance(context),mAppWidgetId);
                 setResult(RESULT_OK, resulValue);
                 finish();
-//
             }
         });
-
-        // Обработка долгого нажатия на элемент
-//        mNameCity.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-//
-//            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-//                return true;
-//            }
-//        }
-//    );
-
     }
 
 
@@ -136,15 +129,5 @@ public class ConfigActivity extends AppCompatActivity {
             ed.apply();
         }
     }
-
-    // загрузка строки из файл параметров
-    public String loadStringParametersFromFile(String parameters) {
-        String resSet = "";
-        mSPref = getSharedPreferences(WIDGET_PREF, MODE_PRIVATE);
-        resSet = mSPref.getString(parameters, "");
-        if (resSet == null) resSet = "";
-        return resSet;
-    }
-
 
 }

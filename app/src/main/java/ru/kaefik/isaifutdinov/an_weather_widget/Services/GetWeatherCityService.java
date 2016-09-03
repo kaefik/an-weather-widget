@@ -22,6 +22,7 @@ public class GetWeatherCityService extends Service {
 
     private CityModel mCityModel;
     private cityInfoAsyncTask mTask;
+    private int mWidgetId;
 
 
     class cityInfoAsyncTask extends AsyncTask<Void, Void, CityModel> {
@@ -77,6 +78,7 @@ public class GetWeatherCityService extends Service {
         mCityModel.setMYAPPID("76d6de6e46c704733f12c8738307dbb5");
         // получение данных через intent: имя города который нужно обновить
         mCityModel.setName(intent.getStringExtra(AnWeatherWidget.PARAM_CITY));
+        mWidgetId=intent.getIntExtra(AnWeatherWidget.PARAM_WIDGETID,0);
 
         //обновление погоды
         try {
@@ -117,6 +119,7 @@ public class GetWeatherCityService extends Service {
         intent.putExtra(AnWeatherWidget.PARAM_DESCWEATHER,mCityModel.getWeather("description"));
         intent.putExtra(AnWeatherWidget.PARAM_WEATHERIMAGE,mCityModel.getWeather("icon"));
         intent.putExtra(AnWeatherWidget.PARAM_WIND, Utils.windGradus2Rumb(mCityModel.getWinddirection())+" ("+Float.toString(mCityModel.getWindspeed())+" м/с)");
+        intent.putExtra(AnWeatherWidget.PARAM_WIDGETID,mWidgetId);
         sendBroadcast(intent);
     }
 
