@@ -62,7 +62,7 @@ public class AnWeatherWidget extends AppWidgetProvider {
         String nameCity = loadStringParametersFromFile(context, String.valueOf(appWidgetId));
         if (!nameCity.trim().equals("")) {
 
-            Log.i(TAG_SERVICE, "обновление виджета  updateAppWidget - >город: "+nameCity);
+            Log.i(TAG_SERVICE, "обновление виджета  updateAppWidget - >город: " + nameCity);
             // вешаем на кпонку событие CLICK_WIDGET_BUTTON чтобы его обработать в методе onReceive
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.an_weather_widget);
             //Подготавливаем Intent для Broadcast
@@ -112,7 +112,7 @@ public class AnWeatherWidget extends AppWidgetProvider {
             String timeRefreshCity = intent.getStringExtra(PARAM_TIMEREFRESH);
             String weatherImageCity = intent.getStringExtra(PARAM_WEATHERIMAGE);
             String descriptionWeather = intent.getStringExtra(PARAM_DESCWEATHER);
-            int WidgetId = intent.getIntExtra(PARAM_WIDGETID,0);
+            int WidgetId = intent.getIntExtra(PARAM_WIDGETID, 0);
 
             Log.i(TAG_SERVICE, "onReceive " + nameCity + " -> " + tempCity);
 
@@ -122,7 +122,7 @@ public class AnWeatherWidget extends AppWidgetProvider {
             int[] appWidgetId = appWidgetManager.getAppWidgetIds(thisWidget);
 
             for (int i = 0; i < appWidgetId.length; i++) {
-                if(WidgetId==appWidgetId[i]) {
+                if (WidgetId == appWidgetId[i]) {
                     RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.an_weather_widget);
                     views.setTextViewText(R.id.cityNameText, nameCity);
                     views.setTextViewText(R.id.tempCityText, tempCity);
@@ -163,7 +163,7 @@ public class AnWeatherWidget extends AppWidgetProvider {
                 Log.i(TAG_SERVICE, "id виждета при обновлении виджетов -> " + String.valueOf(appWidgetId[i]));
                 String nameCity = loadStringParametersFromFile(context, String.valueOf(appWidgetId[i]));
 //            views.setTextViewText(R.id.cityNameText, nameCity);
-                startGetWeatherCityService(context, appWidgetId[i],new CityModel(nameCity));
+                startGetWeatherCityService(context, appWidgetId[i], new CityModel(nameCity));
             }
 
         }
@@ -178,6 +178,18 @@ public class AnWeatherWidget extends AppWidgetProvider {
 //        mCityModel.setMYAPPID("76d6de6e46c704733f12c8738307dbb5");
         Utils.createTranslateWeatherDescription();
         Log.i(TAG_SERVICE, "onEnabled Widget");
+    }
+
+    @Override
+    public void onDeleted(Context context, int[] appWidgetIds) {
+        super.onDeleted(context, appWidgetIds);
+        // Удаляем Preferences
+        SharedPreferences mSPref = context.getSharedPreferences(WIDGET_PREF, MODE_PRIVATE);
+        SharedPreferences.Editor editor = mSPref.edit();
+        for (int widgetID : appWidgetIds) {
+            editor.remove(String.valueOf(widgetID));
+        }
+        editor.commit();
     }
 
     @Override
