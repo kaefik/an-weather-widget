@@ -105,6 +105,9 @@ public class AnWeatherWidget extends AppWidgetProvider {
             String descriptionWeather = intent.getStringExtra(PARAM_DESCWEATHER);
             int WidgetId = intent.getIntExtra(PARAM_WIDGETID, 0);
 
+            //TODO: проверить что данные поступили нулевые, тогда получаем данные из файла ИМЯГОРОДА. Возможно это перенести в GetWeatherCityService
+
+
             Log.i(TAG_SERVICE, "onReceive " + nameCity + " -> " + tempCity);
 
             //отображение порлученных данных
