@@ -65,7 +65,7 @@ public class ConfigActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
+        Log.i(TAG_SERVICE, "onStart  ConfigActivity");
         //-----------------------
         mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
         Intent intent = getIntent();

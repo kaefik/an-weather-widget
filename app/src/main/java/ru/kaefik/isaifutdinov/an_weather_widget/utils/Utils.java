@@ -8,6 +8,8 @@
 package ru.kaefik.isaifutdinov.an_weather_widget.utils;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -280,14 +282,14 @@ public class Utils {
         }
     }
 
-    // проверка на наличение подключения к интернет
-//    public boolean isConnected() {
-//        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-//        NetworkInfo ni = cm.getActiveNetworkInfo();
-//        if (ni != null && ni.isConnected()) {
-//            return true;
-//        }
-//        return false;
-//    }
+    // проверка на наличение подключения к интернет.  true - сервисы интернета подключены
+    public static boolean isConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni != null && ni.isConnected()) {
+            return true;
+        }
+        return false;
+    }
 
 }

@@ -31,20 +31,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ce13feef-0769-4b50-a03b-05561ea7cdfd" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/an_widget_preview.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/an_widget_preview.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/an_widget_preview.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/an_widget_preview.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/an_widget_preview.png" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/fileSnapshotsToTreeSnapshotsIndex.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/taskArtifacts/taskArtifacts.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugAndroidTestJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugAndroidTestJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugAndroidTestJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugAndroidTestJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugUnitTestJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugUnitTestJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugUnitTestJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.14.1/tasks/_app_compileDebugUnitTestJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/xml/an_weather_widget_info.xml" afterPath="$PROJECT_DIR$/app/src/main/res/xml/an_weather_widget_info.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/ConfigActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/ConfigActivity.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/Services/GetWeatherCityService.java" afterPath="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/Services/GetWeatherCityService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/city/CityModel.java" afterPath="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/city/CityModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/utils/Utils.java" afterPath="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/utils/Utils.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
     </list>
     <ignored path="an-weather-widget.iws" />
@@ -69,7 +73,7 @@
       <file leaf-file-name="AnWeatherWidget.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/AnWeatherWidget.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.3">
+            <state vertical-scroll-proportion="-12.3">
               <caret line="79" column="22" selection-start-line="79" selection-start-column="22" selection-end-line="79" selection-end-column="22" />
               <folding>
                 <element signature="e#0#9358#0" expanded="true" />
@@ -79,11 +83,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="an_weather_widget_info.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/an_weather_widget_info.xml">
+      <file leaf-file-name="GetWeatherCityService.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/Services/GetWeatherCityService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.11278196">
-              <caret line="6" column="53" selection-start-line="6" selection-start-column="53" selection-end-line="6" selection-end-column="53" />
+            <state vertical-scroll-proportion="0.36489898">
+              <caret line="83" column="63" selection-start-line="83" selection-start-column="63" selection-end-line="83" selection-end-column="63" />
               <folding />
             </state>
           </provider>
@@ -93,7 +97,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/utils/Utils.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="201" column="0" selection-start-line="201" selection-start-column="0" selection-end-line="201" selection-end-column="0" />
+              <caret line="281" column="9" selection-start-line="281" selection-start-column="9" selection-end-line="281" selection-end-column="9" />
               <folding />
             </state>
           </provider>
@@ -103,70 +107,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/city/CityModel.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#15246#0" expanded="false" />
-                <element signature="imports" expanded="false" />
-                <element signature="e#7252#7253#0" expanded="false" />
-                <element signature="e#7307#7308#0" expanded="false" />
-                <element signature="e#7349#7350#0" expanded="false" />
-                <element signature="e#7392#7393#0" expanded="false" />
-                <element signature="e#9982#9983#0" expanded="false" />
-                <element signature="e#10021#10022#0" expanded="false" />
-                <element signature="e#10120#10121#0" expanded="false" />
-                <element signature="e#10181#10182#0" expanded="false" />
-                <element signature="e#10243#10244#0" expanded="false" />
-                <element signature="e#10298#10299#0" expanded="false" />
-                <element signature="e#10348#10349#0" expanded="false" />
-                <element signature="e#10395#10396#0" expanded="false" />
-                <element signature="e#10433#10434#0" expanded="false" />
-                <element signature="e#10477#10478#0" expanded="false" />
-                <element signature="e#10515#10516#0" expanded="false" />
-                <element signature="e#10552#10553#0" expanded="false" />
-                <element signature="e#10602#10603#0" expanded="false" />
-                <element signature="e#10649#10650#0" expanded="false" />
-                <element signature="e#10693#10694#0" expanded="false" />
-                <element signature="e#10734#10735#0" expanded="false" />
-                <element signature="e#10777#10778#0" expanded="false" />
-                <element signature="e#10818#10819#0" expanded="false" />
-                <element signature="e#10865#10866#0" expanded="false" />
-                <element signature="e#10910#10911#0" expanded="false" />
-                <element signature="e#10965#10966#0" expanded="false" />
-                <element signature="e#11018#11019#0" expanded="false" />
-                <element signature="e#11069#11070#0" expanded="false" />
-                <element signature="e#11118#11119#0" expanded="false" />
-                <element signature="e#11171#11172#0" expanded="false" />
-                <element signature="e#11222#11223#0" expanded="false" />
-                <element signature="e#11283#11284#0" expanded="false" />
-                <element signature="e#11342#11343#0" expanded="false" />
-                <element signature="e#11373#11374#0" expanded="false" />
-                <element signature="e#11407#11408#0" expanded="false" />
-                <element signature="e#11445#11446#0" expanded="false" />
-                <element signature="e#11484#11485#0" expanded="false" />
-                <element signature="e#11519#11520#0" expanded="false" />
-                <element signature="e#11555#11556#0" expanded="false" />
-                <element signature="e#11589#11590#0" expanded="false" />
-                <element signature="e#11625#11626#0" expanded="false" />
-                <element signature="e#11661#11662#0" expanded="false" />
-                <element signature="e#11699#11700#0" expanded="false" />
-                <element signature="e#11739#11740#0" expanded="false" />
-                <element signature="e#11781#11782#0" expanded="false" />
-                <element signature="e#11819#11820#0" expanded="false" />
-                <element signature="e#11859#11860#0" expanded="false" />
-                <element signature="e#11898#11899#0" expanded="false" />
-                <element signature="e#11939#11940#0" expanded="false" />
-                <element signature="e#11982#11983#0" expanded="false" />
-                <element signature="e#12027#12028#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GetWeatherCityService.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/Services/GetWeatherCityService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-20.9">
-              <caret line="114" column="34" selection-start-line="114" selection-start-column="34" selection-end-line="114" selection-end-column="34" />
+              <caret line="382" column="41" selection-start-line="382" selection-start-column="41" selection-end-line="382" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -176,7 +117,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/ConfigActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="53" column="36" selection-start-line="53" selection-start-column="36" selection-end-line="53" selection-end-column="36" />
+              <caret line="67" column="35" selection-start-line="67" selection-start-column="35" selection-end-line="67" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -1799,8 +1740,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/city/CityModel.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/utils/Utils.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/Services/GetWeatherCityIntentService.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/an_weather_widget.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_config.xml" />
@@ -1809,12 +1748,14 @@
         <option value="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/adapter/CityModelListAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/CityModelAsyncTaskLoader.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/ConfigActivity.java" />
         <option value="$USER_HOME$/Android/Sdk/platforms/android-24/android.jar!/java/util/ArrayList.class" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/Services/GetWeatherCityService.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/AnWeatherWidget.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable-nodpi/anwidget_preview.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/xml/an_weather_widget_info.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/ConfigActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/utils/Utils.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/Services/GetWeatherCityService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/city/CityModel.java" />
       </list>
     </option>
   </component>
@@ -1974,6 +1915,28 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="utils" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="an-weather-widget" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="an_weather_widget" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="city" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2466,7 +2429,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="999" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32902467" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28202116" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2841,6 +2804,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.76642334">
           <caret line="66" column="0" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2893,75 +2857,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/city/CityModel.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#15246#0" expanded="false" />
-            <element signature="imports" expanded="false" />
-            <element signature="e#7252#7253#0" expanded="false" />
-            <element signature="e#7307#7308#0" expanded="false" />
-            <element signature="e#7349#7350#0" expanded="false" />
-            <element signature="e#7392#7393#0" expanded="false" />
-            <element signature="e#9982#9983#0" expanded="false" />
-            <element signature="e#10021#10022#0" expanded="false" />
-            <element signature="e#10120#10121#0" expanded="false" />
-            <element signature="e#10181#10182#0" expanded="false" />
-            <element signature="e#10243#10244#0" expanded="false" />
-            <element signature="e#10298#10299#0" expanded="false" />
-            <element signature="e#10348#10349#0" expanded="false" />
-            <element signature="e#10395#10396#0" expanded="false" />
-            <element signature="e#10433#10434#0" expanded="false" />
-            <element signature="e#10477#10478#0" expanded="false" />
-            <element signature="e#10515#10516#0" expanded="false" />
-            <element signature="e#10552#10553#0" expanded="false" />
-            <element signature="e#10602#10603#0" expanded="false" />
-            <element signature="e#10649#10650#0" expanded="false" />
-            <element signature="e#10693#10694#0" expanded="false" />
-            <element signature="e#10734#10735#0" expanded="false" />
-            <element signature="e#10777#10778#0" expanded="false" />
-            <element signature="e#10818#10819#0" expanded="false" />
-            <element signature="e#10865#10866#0" expanded="false" />
-            <element signature="e#10910#10911#0" expanded="false" />
-            <element signature="e#10965#10966#0" expanded="false" />
-            <element signature="e#11018#11019#0" expanded="false" />
-            <element signature="e#11069#11070#0" expanded="false" />
-            <element signature="e#11118#11119#0" expanded="false" />
-            <element signature="e#11171#11172#0" expanded="false" />
-            <element signature="e#11222#11223#0" expanded="false" />
-            <element signature="e#11283#11284#0" expanded="false" />
-            <element signature="e#11342#11343#0" expanded="false" />
-            <element signature="e#11373#11374#0" expanded="false" />
-            <element signature="e#11407#11408#0" expanded="false" />
-            <element signature="e#11445#11446#0" expanded="false" />
-            <element signature="e#11484#11485#0" expanded="false" />
-            <element signature="e#11519#11520#0" expanded="false" />
-            <element signature="e#11555#11556#0" expanded="false" />
-            <element signature="e#11589#11590#0" expanded="false" />
-            <element signature="e#11625#11626#0" expanded="false" />
-            <element signature="e#11661#11662#0" expanded="false" />
-            <element signature="e#11699#11700#0" expanded="false" />
-            <element signature="e#11739#11740#0" expanded="false" />
-            <element signature="e#11781#11782#0" expanded="false" />
-            <element signature="e#11819#11820#0" expanded="false" />
-            <element signature="e#11859#11860#0" expanded="false" />
-            <element signature="e#11898#11899#0" expanded="false" />
-            <element signature="e#11939#11940#0" expanded="false" />
-            <element signature="e#11982#11983#0" expanded="false" />
-            <element signature="e#12027#12028#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/ConfigActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="53" column="36" selection-start-line="53" selection-start-column="36" selection-end-line="53" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/CityModelAsyncTaskLoader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.20072992">
@@ -2974,17 +2869,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/Services/GetWeatherCityService.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-nodpi/example_appwidget_preview.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/an_weather_widget_info.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-20.9">
-          <caret line="114" column="34" selection-start-line="114" selection-start-column="34" selection-end-line="114" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.05639098">
+          <caret line="3" column="53" selection-start-line="3" selection-start-column="53" selection-end-line="3" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/ConfigActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="67" column="35" selection-start-line="67" selection-start-column="35" selection-end-line="67" selection-end-column="35" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/AnWeatherWidget.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.3">
+        <state vertical-scroll-proportion="-12.3">
           <caret line="79" column="22" selection-start-line="79" selection-start-column="22" selection-end-line="79" selection-end-column="22" />
           <folding>
             <element signature="e#0#9358#0" expanded="true" />
@@ -2993,23 +2901,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-nodpi/example_appwidget_preview.png">
-      <provider selected="true" editor-type-id="images">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/utils/Utils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="201" column="0" selection-start-line="201" selection-start-column="0" selection-end-line="201" selection-end-column="0" />
+          <caret line="281" column="9" selection-start-line="281" selection-start-column="9" selection-end-line="281" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/xml/an_weather_widget_info.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/city/CityModel.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.11278196">
-          <caret line="6" column="53" selection-start-line="6" selection-start-column="53" selection-end-line="6" selection-end-column="53" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="382" column="41" selection-start-line="382" selection-start-column="41" selection-end-line="382" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ru/kaefik/isaifutdinov/an_weather_widget/Services/GetWeatherCityService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.36489898">
+          <caret line="83" column="63" selection-start-line="83" selection-start-column="63" selection-end-line="83" selection-end-column="63" />
           <folding />
         </state>
       </provider>

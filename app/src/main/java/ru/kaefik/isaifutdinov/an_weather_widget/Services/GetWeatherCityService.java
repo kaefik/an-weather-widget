@@ -83,18 +83,26 @@ public class GetWeatherCityService extends Service {
         mCityModel.setName(intent.getStringExtra(AnWeatherWidget.PARAM_CITY));
         mWidgetId = intent.getIntExtra(AnWeatherWidget.PARAM_WIDGETID, 0);
 
-        //обновление погоды
-        try {
-            refreshDataWeather();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Log.i(AnWeatherWidget.TAG_SERVICE, "после refreshDataWeather() имя города: " + mCityModel.getName() + " -> " + mCityModel.getTemp());
+        if (Utils.isConnected(getApplication())) {
+            Log.i(AnWeatherWidget.TAG_SERVICE, "Start onStartCommand  GetWeatherCityService -> интернет есть");
+            //обновление погоды
+            try {
+                refreshDataWeather();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Log.i(AnWeatherWidget.TAG_SERVICE, "после refreshDataWeather() имя города: " + mCityModel.getName() + " -> " + mCityModel.getTemp());
 
-        Log.i(AnWeatherWidget.TAG_SERVICE, "start refreshWidget");
-        refreshWidget();
+            Log.i(AnWeatherWidget.TAG_SERVICE, "start refreshWidget");
+            if (!mCityModel.isEmptyWeatherDescription()) {
+                refreshWidget();
+            }
+        } else {
+            Log.i(AnWeatherWidget.TAG_SERVICE, "Start onStartCommand  GetWeatherCityService -> интернета НЕТ");
+        }
+
         stopSelf();
         return super.onStartCommand(intent, flags, startId);
     }
@@ -145,13 +153,13 @@ public class GetWeatherCityService extends Service {
         return flagExistNameCity;
     }
 
-//    восстановление сохраненых данных о погоде(каждый город-отдельный файл с Josn)
+    //    восстановление сохраненых данных о погоде(каждый город-отдельный файл с Josn)
     public CityModel restoreCityInfoFromFile(CityModel cityModel) throws JSONException {
         String nameFile = cityModel.getName();
         if (nameFile != null) {
             cityModel.openFile(nameFile + ".txt", getApplicationContext());
         }
-        return  cityModel;
+        return cityModel;
     }
 
     //сохранение данных о погоде каждый город в отдельный файл
@@ -165,6 +173,10 @@ public class GetWeatherCityService extends Service {
             }
         }
     }
+
+//    public boolean isEmptyCityModel(CityModel cityModel){
+//
+//    }
 
 
 }
