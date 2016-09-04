@@ -4,7 +4,7 @@
     android:initialLayout="@layout/an_weather_widget"
     android:minHeight="70dp"
     android:minWidth="280dp"
-    android:previewImage="@drawable/example_appwidget_preview"
+    android:previewImage="@mipmap/an_widget_preview"
     android:resizeMode="horizontal"
     android:updatePeriodMillis="8640000"
     android:widgetCategory="home_screen"

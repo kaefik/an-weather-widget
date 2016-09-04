@@ -78,6 +78,7 @@ public class AnWeatherWidget extends AppWidgetProvider {
     // запуск сервиса GetWeatherCityService обновления данных города
     public static void startGetWeatherCityService(Context context, int appWidgetId, CityModel cityModel) {
         Intent intent;
+        Utils.createTranslateWeatherDescription();
         intent = new Intent(context, GetWeatherCityService.class);
         intent.putExtra(PARAM_CITY, cityModel.getName());
         intent.putExtra(PARAM_WIDGETID, appWidgetId);
@@ -165,7 +166,6 @@ public class AnWeatherWidget extends AppWidgetProvider {
         //TODO: сделать запуск activity чтобы выбрать текущий город для виджета
 //        mCityModel = new CityModel("Kazan");
 //        mCityModel.setMYAPPID("76d6de6e46c704733f12c8738307dbb5");
-        Utils.createTranslateWeatherDescription();
         Log.i(TAG_SERVICE, "onEnabled Widget");
     }
 

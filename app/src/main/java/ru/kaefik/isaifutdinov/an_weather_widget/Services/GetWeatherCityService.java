@@ -71,7 +71,6 @@ public class GetWeatherCityService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
         Log.i(AnWeatherWidget.TAG_SERVICE, "Start service GetWeatherCityService");
     }
 
