@@ -1,6 +1,7 @@
 package ru.kaefik.isaifutdinov.an_weather_widget.Services;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
@@ -47,21 +48,19 @@ public class GetWeatherCityService extends Service {
     }
 
     // обновление данных о погоде
-    public void refreshDataWeather() throws ExecutionException, InterruptedException {
+    public void refreshDataWeather() throws ExecutionException, InterruptedException,TimeoutException {
         Log.i(AnWeatherWidget.TAG_SERVICE, "start refreshDataWeather()");
         if (mTask != null) {
             mTask.cancel(true);
         }
         mTask = new cityInfoAsyncTask();
-        try {
+
             Log.i(AnWeatherWidget.TAG_SERVICE, "mTask.execute()");
             mTask.execute();
-            mCityModel = mTask.get(3, TimeUnit.SECONDS);
+            mCityModel = mTask.get(5, TimeUnit.SECONDS);
             saveCityInfoToFile(mCityModel);
 //            Log.i(AnWeatherWidget.TAG_SERVICE,"mTask.execute()");
-        } catch (TimeoutException e) {
-            Toast.makeText(this, "Ошибка обновления данных", Toast.LENGTH_SHORT).show();
-        }
+
     }
 
 
@@ -89,8 +88,13 @@ public class GetWeatherCityService extends Service {
             try {
                 refreshDataWeather();
             } catch (ExecutionException e) {
+                Toast.makeText(getApplicationContext(),"Ошибка обновления (ExecutionException)",Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             } catch (InterruptedException e) {
+                Toast.makeText(getApplicationContext(),"Ошибка обновления (InterruptedException)",Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            } catch (TimeoutException e) {
+                Toast.makeText(getApplicationContext(),"Ошибка обновления (TimeoutException)",Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
             Log.i(AnWeatherWidget.TAG_SERVICE, "после refreshDataWeather() имя города: " + mCityModel.getName() + " -> " + mCityModel.getTemp());
@@ -121,7 +125,7 @@ public class GetWeatherCityService extends Service {
 
     // обновление виджета используя широковещательные сообщения
     private void refreshWidget() {
-        Log.i(AnWeatherWidget.TAG_SERVICE, "refreshWidget имя города: " + mCityModel.getName() + " -> " + mCityModel.getTemp());
+        Log.i(AnWeatherWidget.TAG_SERVICE, "refreshWidget имя города: " + mCityModel.getName() + " -> " + mCityModel.getTemp()+" mWidgetId = "+String.valueOf(mWidgetId));
         // отправка виджету погоды данные о погоде
         Intent intent = new Intent(AnWeatherWidget.FORCE_WIDGET_UPDATE);
         intent.putExtra(AnWeatherWidget.PARAM_CITY, mCityModel.getName());
@@ -131,6 +135,7 @@ public class GetWeatherCityService extends Service {
         intent.putExtra(AnWeatherWidget.PARAM_WEATHERIMAGE, mCityModel.getWeather("icon"));
         intent.putExtra(AnWeatherWidget.PARAM_WIND, Utils.windGradus2Rumb(mCityModel.getWinddirection()) + " (" + Float.toString(mCityModel.getWindspeed()) + " м/с)");
         intent.putExtra(AnWeatherWidget.PARAM_WIDGETID, mWidgetId);
+//        saveCityInfoToFile(mCityModel);
         sendBroadcast(intent);
     }
 
@@ -154,10 +159,10 @@ public class GetWeatherCityService extends Service {
     }
 
     //    восстановление сохраненых данных о погоде(каждый город-отдельный файл с Josn)
-    public CityModel restoreCityInfoFromFile(CityModel cityModel) throws JSONException {
+    public static CityModel restoreCityInfoFromFile(Context context,CityModel cityModel) throws JSONException {
         String nameFile = cityModel.getName();
         if (nameFile != null) {
-            cityModel.openFile(nameFile + ".txt", getApplicationContext());
+            cityModel.openFile(nameFile + ".txt", context);
         }
         return cityModel;
     }
@@ -174,9 +179,6 @@ public class GetWeatherCityService extends Service {
         }
     }
 
-//    public boolean isEmptyCityModel(CityModel cityModel){
-//
-//    }
 
 
 }

@@ -7,19 +7,18 @@
 
 package ru.kaefik.isaifutdinov.an_weather_widget;
 
-import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,14 +84,20 @@ public class ConfigActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String cityNameString = adapter.getCityModel(position);
 
+                saveListCity(context,cityNameString);
+
                 Log.i(TAG_SERVICE, " OnItemClick  ConfigActivity -> выбран город " + cityNameString + "  id виджета: " + String.valueOf(mAppWidgetId));
 
-                saveStringParametersToCfg(String.valueOf(mAppWidgetId), cityNameString);
+                saveStringParametersToCfg(context, String.valueOf(mAppWidgetId), cityNameString);
 
                 Intent resulValue = new Intent(AnWeatherWidget.CLICK_WIDGET_BUTTON);
                 resulValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
                 //обновление виджета после отработки ConfigActivity
-                AnWeatherWidget.updateAppWidget(context, AppWidgetManager.getInstance(context),mAppWidgetId);
+                try {
+                    AnWeatherWidget.updateAppWidget(context, AppWidgetManager.getInstance(context), mAppWidgetId);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 setResult(RESULT_OK, resulValue);
                 finish();
             }
@@ -100,13 +105,35 @@ public class ConfigActivity extends AppCompatActivity {
     }
 
     //сохранение параметра-строки  в файл параметров
-    public void saveStringParametersToCfg(String parameters, String values) {
-        mSPref = getSharedPreferences(WIDGET_PREF, MODE_PRIVATE);
+    public void saveStringParametersToCfg(Context context, String parameters, String values) {
+        mSPref = context.getSharedPreferences(WIDGET_PREF, MODE_PRIVATE);
         if (mSPref != null) {
             SharedPreferences.Editor ed = mSPref.edit();
             ed.putString(parameters, values);
             ed.apply();
         }
+    }
+
+    // загрузка строки из файл параметров
+    public static String loadStringParametersFromFile(Context context, String parameters) {
+        String resSet;
+        SharedPreferences mSPref = context.getSharedPreferences(WIDGET_PREF, MODE_PRIVATE);
+        ;
+        resSet = mSPref.getString(parameters, "");
+//        if (resSet == null) resSet = "";
+        return resSet;
+    }
+
+    //    // сохранение списка названий городов
+    public void saveListCity(Context context, String nameCity) {
+        //получение списка городов которые есть
+        String nameCities = loadStringParametersFromFile(context,"city");
+        if(nameCities!=null) {
+            nameCities+=nameCity;
+        } else {
+            nameCities+=","+nameCity;
+        }
+        saveStringParametersToCfg(context,"city",nameCities);
     }
 
 }
