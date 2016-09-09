@@ -15,15 +15,21 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.json.JSONException;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ru.kaefik.isaifutdinov.an_weather_widget.adapter.CityModelListAdapter;
+import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel;
+import ru.kaefik.isaifutdinov.an_weather_widget.utils.Utils;
 
 // конфигурирование виджета при помещении его на раб столе
 public class ConfigActivity extends AppCompatActivity {
@@ -33,6 +39,7 @@ public class ConfigActivity extends AppCompatActivity {
     private int mAppWidgetId; // ID текущего виджета
     private SharedPreferences mSPref;//файл настроек
     private CityModelListAdapter adapter;
+    private EditText nameCityEditText;
 
     public static String TAG_SERVICE = "AnWeatherWidget";
     public static final String WIDGET_PREF = "anweatherwidgetconfig";
@@ -42,6 +49,8 @@ public class ConfigActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Log.i(TAG_SERVICE, "onCreate  ConfigActivity");
         setContentView(R.layout.activity_config);
+
+        nameCityEditText = (EditText) findViewById(R.id.nameCityEditText);;
 
         setResult(RESULT_CANCELED);
 
@@ -135,5 +144,26 @@ public class ConfigActivity extends AppCompatActivity {
         }
         saveStringParametersToCfg(context,"city",nameCities);
     }
+
+
+    // добавления нового города
+    public void onClickAddCity(View v) {
+        String newCity = Utils.firstUpCaseString(nameCityEditText.getText().toString().trim());
+        // TODO: СЮДА ДОБАВИТЬ ДОПОЛНИТЕЛЬНЫЕ ПРОВЕРКИ ВВОДА НАЗВАНИЯ ГОРОДА
+        if ((!newCity.equals("")) && (!nameCityEditText(mListDataCity, newCity))) {
+            mListDataCity.add(new CityModel(newCity));
+            Toast.makeText(getApplicationContext(), getString(R.string.) + newCity, Toast.LENGTH_SHORT).show();
+        }
+        nameCityEditText.setText("");
+        // прячем клавиатуру
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(nameCityEditText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+//        startcityInfoAsyncTask(mListDataCity);
+        saveListCity();
+//        saveCityInfoToFile();
+    }
+
 
 }

@@ -23,5 +23,27 @@
         android:layout_height="wrap_content"
         android:id="@+id/cityListView"
         android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/nameCityEditText"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nameCityEditText"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/textView"
+        android:hint="Добавить город"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:layout_alignTop="@+id/nameCityEditText"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/cityListView"
+        android:layout_toEndOf="@+id/nameCityEditText"
+        android:text="+"
+        android:onClick="onClickAddCity"/>
+
 </RelativeLayout>
