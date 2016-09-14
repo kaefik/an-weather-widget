@@ -22,19 +22,24 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import org.json.JSONException;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ru.kaefik.isaifutdinov.an_weather_widget.adapter.CityModelListAdapter;
-import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel;
 import ru.kaefik.isaifutdinov.an_weather_widget.utils.Utils;
 
 // конфигурирование виджета при помещении его на раб столе
 public class ConfigActivity extends AppCompatActivity {
 
     private ListView mNameCity;
+
+    //добавить элемент nameCity  в поле mListDataCity
+    public void addListDataCity(String nameCity) {
+        if (mListDataCity == null) mListDataCity = new ArrayList<String>();
+        mListDataCity.add(nameCity);
+    }
+
     private List<String> mListDataCity; // список городов
     private int mAppWidgetId; // ID текущего виджета
     private SharedPreferences mSPref;//файл настроек
@@ -50,20 +55,17 @@ public class ConfigActivity extends AppCompatActivity {
         Log.i(TAG_SERVICE, "onCreate  ConfigActivity");
         setContentView(R.layout.activity_config);
 
-        nameCityEditText = (EditText) findViewById(R.id.nameCityEditText);;
+        nameCityEditText = (EditText) findViewById(R.id.nameCityEditText);
+        ;
 
         setResult(RESULT_CANCELED);
 
         mNameCity = (ListView) findViewById(R.id.cityListView);
+        Log.i(TAG_SERVICE, "onCreate  ConfigActivity  start  loadListCity");
+        loadListCity();
+        Log.i(TAG_SERVICE, "onCreate  ConfigActivity  after  loadListCity");
 
-        // наполнение списка городов
-        mListDataCity = new ArrayList<String>();
-        mListDataCity.add("Kazan");
-        mListDataCity.add("Moscow");
-        mListDataCity.add("Samara");
-        mListDataCity.add("Istanbul");
-        mListDataCity.add("London");
-        mListDataCity.add("Apastovo");
+//        saveListCity();
 
         adapter = new CityModelListAdapter(this, mListDataCity);
         mNameCity.setAdapter(adapter);
@@ -93,7 +95,9 @@ public class ConfigActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String cityNameString = adapter.getCityModel(position);
 
-                saveListCity(context,cityNameString);
+//                addListDataCity(cityNameString);
+//
+//                saveListCity();
 
                 Log.i(TAG_SERVICE, " OnItemClick  ConfigActivity -> выбран город " + cityNameString + "  id виджета: " + String.valueOf(mAppWidgetId));
 
@@ -129,30 +133,30 @@ public class ConfigActivity extends AppCompatActivity {
         SharedPreferences mSPref = context.getSharedPreferences(WIDGET_PREF, MODE_PRIVATE);
         ;
         resSet = mSPref.getString(parameters, "");
-//        if (resSet == null) resSet = "";
+        if (resSet == null) resSet = "";
         return resSet;
     }
 
-    //    // сохранение списка названий городов
-    public void saveListCity(Context context, String nameCity) {
-        //получение списка городов которые есть
-        String nameCities = loadStringParametersFromFile(context,"city");
-        if(nameCities!=null) {
-            nameCities+=nameCity;
-        } else {
-            nameCities+=","+nameCity;
-        }
-        saveStringParametersToCfg(context,"city",nameCities);
-    }
+//    //    // сохранение списка названий городов
+//    public void saveListCity(Context context, String nameCity) {
+//        //получение списка городов которые есть
+//        String nameCities = loadStringParametersFromFile(context,"city");
+//        if(nameCities!=null) {
+//            nameCities+=nameCity;
+//        } else {
+//            nameCities+=","+nameCity;
+//        }
+//        saveStringParametersToCfg(context,"city",nameCities);
+//    }
 
 
     // добавления нового города
     public void onClickAddCity(View v) {
         String newCity = Utils.firstUpCaseString(nameCityEditText.getText().toString().trim());
         // TODO: СЮДА ДОБАВИТЬ ДОПОЛНИТЕЛЬНЫЕ ПРОВЕРКИ ВВОДА НАЗВАНИЯ ГОРОДА
-        if ((!newCity.equals("")) && (!nameCityEditText(mListDataCity, newCity))) {
-            mListDataCity.add(new CityModel(newCity));
-            Toast.makeText(getApplicationContext(), getString(R.string.) + newCity, Toast.LENGTH_SHORT).show();
+        if (!newCity.equals("")) {
+            mListDataCity.add(newCity);
+            Toast.makeText(getApplicationContext(), newCity, Toast.LENGTH_SHORT).show();
         }
         nameCityEditText.setText("");
         // прячем клавиатуру
@@ -163,6 +167,45 @@ public class ConfigActivity extends AppCompatActivity {
 //        startcityInfoAsyncTask(mListDataCity);
         saveListCity();
 //        saveCityInfoToFile();
+    }
+
+    // сохранение списка названий городов
+    public void saveListCity() {
+        String stringCityName = "";
+        for (int i = 0; i < mListDataCity.size(); i++) {
+            stringCityName += mListDataCity.get(i) + ",";
+        }
+        saveStringParametersToCfg(this, "city", stringCityName);
+//        saveCityParameters("city", stringCityName);
+    }
+
+    // загрузка списка названий городов
+    public void loadListCity() {
+        Log.i(TAG_SERVICE, "loadListCity()");
+        String stringCityName = "";
+        stringCityName = loadStringParametersFromFile(this, "city");
+        Log.i(TAG_SERVICE, "loadListCity()   -> " + stringCityName);
+        if (!stringCityName.trim().equals("")) {
+            String stringListCityNames[] = stringCityName.split(",");
+            if (mListDataCity == null) mListDataCity = new ArrayList<String>();
+            mListDataCity.clear();
+            for (int i = 0; i < stringListCityNames.length; i++) {
+                mListDataCity.add(i, stringListCityNames[i]);
+            }
+        }
+        // если нет ранее сохраненных городов или произошла ошибка чтения сохранненых городов,
+        // то загружаются список по умолчанию
+        if (mListDataCity == null) {
+            mListDataCity = new ArrayList<String>();
+            mListDataCity.add("Kazan");
+            mListDataCity.add("Moscow");
+            mListDataCity.add("Samara");
+            mListDataCity.add("Istanbul");
+            mListDataCity.add("London");
+            mListDataCity.add("Apastovo");
+//            Toast.makeText(getApplicationContext(), R.string.strDwnloadCityDefault, Toast.LENGTH_SHORT);
+        }
+        mNameCity.invalidateViews();
     }
 
 
