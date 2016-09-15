@@ -23,6 +23,8 @@ import java.util.Map;
 
 import ru.kaefik.isaifutdinov.an_weather_widget.utils.Utils;
 
+import com.google.gson.Gson;
+
 // класс информации о погоде города
 public class CityModel {
 
@@ -389,9 +391,25 @@ public class CityModel {
         }
     }
 
-//    http://api.openweathermap.org/data/2.5/find?q=kazan&type=like&APPID=76d6de6e46c704733f12c8738307dbb5
- //TODO: сделать метод который вовращает название найденных городов и country":"RU
+    //    http://api.openweathermap.org/data/2.5/find?q=kazan&type=like&APPID=76d6de6e46c704733f12c8738307dbb5
+    //TODO: сделать метод который вовращает название найденных городов и country":"RU
     //пример возвращаемого сообщения
-//{"message":"like","cod":"200","count":3,"list":[{"id":551487,"name":"Kazan","coord":{"lon":49.122139,"lat":55.788738},"main":{"temp":283.44,"pressure":1003,"humidity":87,"temp_min":283.15,"temp_max":283.71},"dt":1473860381,"wind":{"speed":5,"deg":340,"gust":10},"sys":{"country":"RU"},"clouds":{"all":75},"weather":[{"id":520,"main":"Rain","description":"light intensity shower rain","icon":"09d"}]},{"id":743615,"name":"Kazan","coord":{"lon":32.683891,"lat":40.23167},"main":{"temp":297.1,"pressure":1012,"humidity":41,"temp_min":297.04,"temp_max":297.15},"dt":1473861107,"wind":{"speed":6.2,"deg":210},"sys":{"country":"TR"},"clouds":{"all":40},"weather":[{"id":802,"main":"Clouds","description":"scattered clouds","icon":"03d"}]},{"id":730496,"name":"Kazanluk","coord":{"lon":25.4,"lat":42.616669},"main":{"temp":302.15,"pressure":1013,"humidity":32,"temp_min":302.15,"temp_max":302.15},"dt":1473858000,"wind":{"speed":4.1,"deg":350,"var_beg":310,"var_end":30},"sys":{"country":"BG"},"clouds":{"all":76},"weather":[{"id":803,"main":"Clouds","description":"broken clouds","icon":"04d"}]}]}
+//{"message":"like","cod":"200","count":3,"list":
+// [
+// {"id":551487,"name":"Kazan","coord":{"lon":49.122139,"lat":55.788738},"main":{"temp":283.44,"pressure":1003,"humidity":87,"temp_min":283.15,"temp_max":283.71},"dt":1473860381,"wind":{"speed":5,"deg":340,"gust":10},"sys":{"country":"RU"},"clouds":{"all":75},"weather":[{"id":520,"main":"Rain","description":"light intensity shower rain","icon":"09d"}]}
+// ,{"id":743615,"name":"Kazan","coord":{"lon":32.683891,"lat":40.23167},"main":{"temp":297.1,"pressure":1012,"humidity":41,"temp_min":297.04,"temp_max":297.15},"dt":1473861107,"wind":{"speed":6.2,"deg":210},"sys":{"country":"TR"},"clouds":{"all":40},"weather":[{"id":802,"main":"Clouds","description":"scattered clouds","icon":"03d"}]}
+// ,{"id":730496,"name":"Kazanluk","coord":{"lon":25.4,"lat":42.616669},"main":{"temp":302.15,"pressure":1013,"humidity":32,"temp_min":302.15,"temp_max":302.15},"dt":1473858000,"wind":{"speed":4.1,"deg":350,"var_beg":310,"var_end":30},"sys":{"country":"BG"},"clouds":{"all":76},"weather":[{"id":803,"main":"Clouds","description":"broken clouds","icon":"04d"}]}
+// ]}
+    public String[] getLikeNameCity() {
+        String res = Utils.getHttpRequestFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + getName() + "&units=metric&APPID=" + getMYAPPID());
+        if (res == null) {
+            // TODO: подумать как лучше обработать данную ветку
+            System.out.println("Ошибка при обновлении данных");
+        } else {
+        }
 
+    }
+//       static public String getObjFromJson(String sjosn, String nameParrent, String nameChild)
+
+}
 }
