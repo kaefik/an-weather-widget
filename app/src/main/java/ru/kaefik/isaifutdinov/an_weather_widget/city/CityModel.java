@@ -11,6 +11,8 @@ package ru.kaefik.isaifutdinov.an_weather_widget.city;
 import android.content.Context;
 import android.content.Intent;
 
+import com.google.gson.Gson;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,8 +24,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ru.kaefik.isaifutdinov.an_weather_widget.utils.Utils;
-
-import com.google.gson.Gson;
 
 // класс информации о погоде города
 public class CityModel {
@@ -400,16 +400,26 @@ public class CityModel {
 // ,{"id":743615,"name":"Kazan","coord":{"lon":32.683891,"lat":40.23167},"main":{"temp":297.1,"pressure":1012,"humidity":41,"temp_min":297.04,"temp_max":297.15},"dt":1473861107,"wind":{"speed":6.2,"deg":210},"sys":{"country":"TR"},"clouds":{"all":40},"weather":[{"id":802,"main":"Clouds","description":"scattered clouds","icon":"03d"}]}
 // ,{"id":730496,"name":"Kazanluk","coord":{"lon":25.4,"lat":42.616669},"main":{"temp":302.15,"pressure":1013,"humidity":32,"temp_min":302.15,"temp_max":302.15},"dt":1473858000,"wind":{"speed":4.1,"deg":350,"var_beg":310,"var_end":30},"sys":{"country":"BG"},"clouds":{"all":76},"weather":[{"id":803,"main":"Clouds","description":"broken clouds","icon":"04d"}]}
 // ]}
-    public String[] getLikeNameCity() {
-        String res = Utils.getHttpRequestFromUrl("http://api.openweathermap.org/data/2.5/weather?q=" + getName() + "&units=metric&APPID=" + getMYAPPID());
+    public void getLikeNameCity(String searchNameCity) {
+        String url = "http://api.openweathermap.org/data/2.5/find?q=" + searchNameCity + "&type=like&APPID=" + getMYAPPID();
+        String res = Utils.getHttpRequestFromUrl(url);
+        System.out.println("урл   -> " + url);
+        System.out.println("урл   -> " + res);
+        Gson gson = new Gson();
         if (res == null) {
             // TODO: подумать как лучше обработать данную ветку
             System.out.println("Ошибка при обновлении данных");
         } else {
+//            String sCount = Utils.getObjFromJson(res,"message", null);
+//            System.out.println("count   -> " + sCount);
+            ArrayCityModel cc = gson.fromJson(res, ArrayCityModel.class);
+            System.out.println(cc.getCount());
+            System.out.println(cc.getCount());
+//            https://github.com/google/gson/blob/master/UserGuide.md#TOC-Object-Examples
         }
 
     }
 //       static public String getObjFromJson(String sjosn, String nameParrent, String nameChild)
 
 }
-}
+
