@@ -9,9 +9,12 @@ package ru.kaefik.isaifutdinov.an_weather_widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -25,8 +28,12 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import ru.kaefik.isaifutdinov.an_weather_widget.adapter.CityModelListAdapter;
+import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel;
 import ru.kaefik.isaifutdinov.an_weather_widget.utils.Utils;
 
 // конфигурирование виджета при помещении его на раб столе
@@ -49,6 +56,28 @@ public class ConfigActivity extends AppCompatActivity {
     public static String TAG_SERVICE = "AnWeatherWidget";
     public static final String WIDGET_PREF = "anweatherwidgetconfig";
 
+    private CityModel mCityModel;
+
+    private cityInfoAsyncTask mTask;
+
+
+    class cityInfoAsyncTask extends AsyncTask<String, Void, ArrayList<String>> {
+        @Override
+        protected ArrayList<String> doInBackground(String... voids) {
+            ArrayList<String> rr=new ArrayList<String>();
+
+                // TODO: не нравится что использую в этом классе объект mCityDataWeather
+                rr = mCityModel.getLikeNameCity(voids[0]);
+
+            return rr;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String>  cityModel) {
+            super.onPostExecute(cityModel);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +85,6 @@ public class ConfigActivity extends AppCompatActivity {
         setContentView(R.layout.activity_config);
 
         nameCityEditText = (EditText) findViewById(R.id.nameCityEditText);
-        ;
 
         setResult(RESULT_CANCELED);
 
@@ -94,10 +122,6 @@ public class ConfigActivity extends AppCompatActivity {
 
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String cityNameString = adapter.getCityModel(position);
-
-//                addListDataCity(cityNameString);
-//
-//                saveListCity();
 
                 Log.i(TAG_SERVICE, " OnItemClick  ConfigActivity -> выбран город " + cityNameString + "  id виджета: " + String.valueOf(mAppWidgetId));
 
@@ -137,24 +161,48 @@ public class ConfigActivity extends AppCompatActivity {
         return resSet;
     }
 
-//    //    // сохранение списка названий городов
-//    public void saveListCity(Context context, String nameCity) {
-//        //получение списка городов которые есть
-//        String nameCities = loadStringParametersFromFile(context,"city");
-//        if(nameCities!=null) {
-//            nameCities+=nameCity;
-//        } else {
-//            nameCities+=","+nameCity;
-//        }
-//        saveStringParametersToCfg(context,"city",nameCities);
-//    }
-
 
     // добавления нового города
-    public void onClickAddCity(View v) {
+    public void onClickAddCity(View v) throws InterruptedException, ExecutionException, TimeoutException {
         String newCity = Utils.firstUpCaseString(nameCityEditText.getText().toString().trim());
         // TODO: СЮДА ДОБАВИТЬ ДОПОЛНИТЕЛЬНЫЕ ПРОВЕРКИ ВВОДА НАЗВАНИЯ ГОРОДА
         if (!newCity.equals("")) {
+
+            // вывести похожие названия которые найдены и вывести диалоговое окно для выбора нужного города
+            Log.i(TAG_SERVICE, " onClickAddCity -> newCity " +newCity);
+            CityModel cc = new CityModel("");
+            cc.setMYAPPID("76d6de6e46c704733f12c8738307dbb5");
+            final String[] ss = getLikeNameCity();
+            Log.i(TAG_SERVICE, " onClickAddCity -> ss " + ss.toString());
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Какой город добавить?")
+                    .setCancelable(false)
+                    // добавляем одну кнопку для закрытия диалога
+                    .setNeutralButton("Назад",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,
+                                                    int id) {
+                                    dialog.cancel();
+                                }
+                            })
+                    // добавляем переключатели
+                    .setSingleChoiceItems(ss, -1,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,
+                                                    int item) {
+                                    Toast.makeText(
+                                            getApplicationContext(),
+                                            "Найденные города: "
+                                                    + ss[item],
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+            builder.create();
+
+
+
             mListDataCity.add(newCity);
             Toast.makeText(getApplicationContext(), newCity, Toast.LENGTH_SHORT).show();
         }
@@ -164,10 +212,23 @@ public class ConfigActivity extends AppCompatActivity {
         if (imm != null) {
             imm.hideSoftInputFromWindow(nameCityEditText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
-//        startcityInfoAsyncTask(mListDataCity);
         saveListCity();
-//        saveCityInfoToFile();
     }
+
+
+    // обновление данных о погоде
+    public String[] getLikeNameCity() throws ExecutionException, InterruptedException,TimeoutException {
+        Log.i(AnWeatherWidget.TAG_SERVICE, "start getLikeNameCity()");
+        if (mTask != null) {
+            mTask.cancel(true);
+        }
+        mTask = new cityInfoAsyncTask();
+
+        Log.i(AnWeatherWidget.TAG_SERVICE, "getLikeNameCity() -> mTask.execute()");
+        mTask.execute();
+        return mTask.get(10, TimeUnit.SECONDS).toArray(new String[0]);
+    }
+
 
     // сохранение списка названий городов
     public void saveListCity() {

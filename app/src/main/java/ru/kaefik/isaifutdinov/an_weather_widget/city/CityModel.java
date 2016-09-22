@@ -10,6 +10,7 @@ package ru.kaefik.isaifutdinov.an_weather_widget.city;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -19,10 +20,12 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import ru.kaefik.isaifutdinov.an_weather_widget.ConfigActivity;
 import ru.kaefik.isaifutdinov.an_weather_widget.utils.Utils;
 
 // класс информации о погоде города
@@ -57,7 +60,7 @@ public class CityModel {
         this.mWeather.put("id", "");
         this.mWeather.put("icon", "");
         this.mWeather.put("description", "");
-        this.mWeather.put("main", "");
+        this.mWeather.put("temp", "");
         setMYAPPID("");
     }
 
@@ -76,7 +79,7 @@ public class CityModel {
         this.mWeather.put("id", "");
         this.mWeather.put("icon", "");
         this.mWeather.put("description", "");
-        this.mWeather.put("main", "");
+        this.mWeather.put("temp", "");
         setMYAPPID("");
     }
 
@@ -95,7 +98,7 @@ public class CityModel {
         this.mWeather.put("id", "");
         this.mWeather.put("icon", "");
         this.mWeather.put("description", "");
-        this.mWeather.put("main", "");
+        this.mWeather.put("temp", "");
         setMYAPPID(appid);
     }
 
@@ -114,7 +117,7 @@ public class CityModel {
         this.mWeather.put("id", "");
         this.mWeather.put("icon", "");
         this.mWeather.put("description", "");
-        this.mWeather.put("main", "");
+        this.mWeather.put("temp", "");
         setMYAPPID("");
     }
 
@@ -134,7 +137,7 @@ public class CityModel {
         this.mWeather.put("id", jo.get("weather-id").toString());
         this.mWeather.put("icon", jo.get("weather-icon").toString());
         this.mWeather.put("description", jo.get("weather-description").toString());
-        this.mWeather.put("main", jo.get("weather-main").toString());
+        this.mWeather.put("temp", jo.get("weather-temp").toString());
         setMYAPPID(jo.get("appid").toString());
     }
 
@@ -170,7 +173,7 @@ public class CityModel {
         jo.put("weather-id", getWeather("id"));
         jo.put("weather-icon", getWeather("icon"));
         jo.put("weather-description", getWeather("description"));
-        jo.put("weather-main", getWeather("main"));
+        jo.put("weather-temp", getWeather("temp"));
         jo.put("appid", getMYAPPID());
         return jo;
     }
@@ -193,8 +196,8 @@ public class CityModel {
     public void getHttpWeather() throws ParseException {
         //api.openweathermap.org/data/2.5/mWeather?q=London&APPID=9a4be4eeb7de3b88211989559a0849f7
         //        {"coord":{"lon":49.12,"lat":55.79},
-        //         "mWeather":[{"mId":800,"main":"Clear","description":"clear sky","icon":"01n"}],
-        //         "base":"cmc stations","main":{"mTemp":293.9,"mPressure":1015,"humidity":52,"temp_min":293.71,"temp_max":294.15},
+        //         "mWeather":[{"mId":800,"temp":"Clear","description":"clear sky","icon":"01n"}],
+        //         "base":"cmc stations","temp":{"mTemp":293.9,"mPressure":1015,"humidity":52,"temp_min":293.71,"temp_max":294.15},
         //         "wind":{"speed":3,"deg":50},"mClouds":{"all":0},"dt":1469468475,
         //         "sys":{"type":1,"mId":7335,"message":0.0089,"mCountry":"RU","sunrise":1469407055,"sunset":1469466078},
         //         "mId":551487,"mName":"Kazan","cod":200}
@@ -205,18 +208,18 @@ public class CityModel {
             System.out.println("Ошибка при обновлении данных");
         } else {
             if (Utils.getObjFromJson(res, "name", null).equals(this.mName)) {
-                setTemp(Float.parseFloat(Utils.getObjFromJson(res, "main", "temp")));
-                setPressure(Float.parseFloat(Utils.getObjFromJson(res, "main", "pressure")));
-                setHuminidity(Float.parseFloat(Utils.getObjFromJson(res, "main", "humidity")));
+                setTemp(Float.parseFloat(Utils.getObjFromJson(res, "temp", "temp")));
+                setPressure(Float.parseFloat(Utils.getObjFromJson(res, "temp", "pressure")));
+                setHuminidity(Float.parseFloat(Utils.getObjFromJson(res, "temp", "humidity")));
                 setWindspeed(Float.parseFloat(Utils.getObjFromJson(res, "wind", "speed")));
                 setWinddirection(Float.parseFloat(Utils.getObjFromJson(res, "wind", "deg")));
                 setCountry(Utils.getObjFromJson(res, "sys", "country"));
                 setId(Long.parseLong(Utils.getObjFromJson(res, "id", null)));
                 String ss = Utils.getObjFromJson(res, "weather", null);
-                //  "mWeather":[{"mId":800,"main":"Clear","description":"clear sky","icon":"01n"}]
+                //  "mWeather":[{"mId":800,"temp":"Clear","description":"clear sky","icon":"01n"}]
                 String tmp1 = ss.substring(1, ss.length() - 1);
                 setWeather("id", (Utils.getObjFromJson(tmp1, "id", null)));
-                setWeather("main", (Utils.getObjFromJson(tmp1, "main", null)));
+                setWeather("temp", (Utils.getObjFromJson(tmp1, "temp", null)));
                 setWeather("description", Utils.translateWeatherDescription((Utils.getObjFromJson(tmp1, "description", null))));
                 setWeather("icon", (Utils.getObjFromJson(tmp1, "icon", null)));
                 setTimeRefresh();
@@ -336,7 +339,7 @@ public class CityModel {
         intent.putExtra("weather-id", getWeather("id"));
         intent.putExtra("weather-icon", getWeather("icon"));
         intent.putExtra("weather-description", getWeather("description"));
-        intent.putExtra("weather-main", getWeather("main"));
+        intent.putExtra("weather-temp", getWeather("temp"));
         return intent;
     }
 
@@ -357,7 +360,7 @@ public class CityModel {
         setWeather("mId", intent.getStringExtra("weather-id"));
         setWeather("icon", intent.getStringExtra("weather-icon"));
         setWeather("description", intent.getStringExtra("weather-description"));
-        setWeather("main", intent.getStringExtra("weather-main"));
+        setWeather("temp", intent.getStringExtra("weather-temp"));
         setMYAPPID(intent.getStringExtra("appid"));
     }
 
@@ -396,30 +399,33 @@ public class CityModel {
     //пример возвращаемого сообщения
 //{"message":"like","cod":"200","count":3,"list":
 // [
-// {"id":551487,"name":"Kazan","coord":{"lon":49.122139,"lat":55.788738},"main":{"temp":283.44,"pressure":1003,"humidity":87,"temp_min":283.15,"temp_max":283.71},"dt":1473860381,"wind":{"speed":5,"deg":340,"gust":10},"sys":{"country":"RU"},"clouds":{"all":75},"weather":[{"id":520,"main":"Rain","description":"light intensity shower rain","icon":"09d"}]}
-// ,{"id":743615,"name":"Kazan","coord":{"lon":32.683891,"lat":40.23167},"main":{"temp":297.1,"pressure":1012,"humidity":41,"temp_min":297.04,"temp_max":297.15},"dt":1473861107,"wind":{"speed":6.2,"deg":210},"sys":{"country":"TR"},"clouds":{"all":40},"weather":[{"id":802,"main":"Clouds","description":"scattered clouds","icon":"03d"}]}
-// ,{"id":730496,"name":"Kazanluk","coord":{"lon":25.4,"lat":42.616669},"main":{"temp":302.15,"pressure":1013,"humidity":32,"temp_min":302.15,"temp_max":302.15},"dt":1473858000,"wind":{"speed":4.1,"deg":350,"var_beg":310,"var_end":30},"sys":{"country":"BG"},"clouds":{"all":76},"weather":[{"id":803,"main":"Clouds","description":"broken clouds","icon":"04d"}]}
+// {"id":551487,"name":"Kazan","coord":{"lon":49.122139,"lat":55.788738},"temp":{"temp":283.44,"pressure":1003,"humidity":87,"temp_min":283.15,"temp_max":283.71},"dt":1473860381,"wind":{"speed":5,"deg":340,"gust":10},"sys":{"country":"RU"},"clouds":{"all":75},"weather":[{"id":520,"temp":"Rain","description":"light intensity shower rain","icon":"09d"}]}
+// ,{"id":743615,"name":"Kazan","coord":{"lon":32.683891,"lat":40.23167},"temp":{"temp":297.1,"pressure":1012,"humidity":41,"temp_min":297.04,"temp_max":297.15},"dt":1473861107,"wind":{"speed":6.2,"deg":210},"sys":{"country":"TR"},"clouds":{"all":40},"weather":[{"id":802,"temp":"Clouds","description":"scattered clouds","icon":"03d"}]}
+// ,{"id":730496,"name":"Kazanluk","coord":{"lon":25.4,"lat":42.616669},"temp":{"temp":302.15,"pressure":1013,"humidity":32,"temp_min":302.15,"temp_max":302.15},"dt":1473858000,"wind":{"speed":4.1,"deg":350,"var_beg":310,"var_end":30},"sys":{"country":"BG"},"clouds":{"all":76},"weather":[{"id":803,"temp":"Clouds","description":"broken clouds","icon":"04d"}]}
 // ]}
-    public void getLikeNameCity(String searchNameCity) {
+
+    // возвращает массив строк похожих названий которые найденны
+    public ArrayList<String> getLikeNameCity(String searchNameCity) {
+        Log.i(ConfigActivity.TAG_SERVICE, " CityModel getLikeNameCity -> start " );
         String url = "http://api.openweathermap.org/data/2.5/find?q=" + searchNameCity + "&type=like&APPID=" + getMYAPPID();
+        ArrayList<String> result = new ArrayList<String>();
         String res = Utils.getHttpRequestFromUrl(url);
-        System.out.println("урл   -> " + url);
-        System.out.println("урл   -> " + res);
+
         Gson gson = new Gson();
         if (res == null) {
             // TODO: подумать как лучше обработать данную ветку
             System.out.println("Ошибка при обновлении данных");
         } else {
-//            String sCount = Utils.getObjFromJson(res,"message", null);
-//            System.out.println("count   -> " + sCount);
+            Log.i(ConfigActivity.TAG_SERVICE, " CityModel getLikeNameCity -> res "+res );
             ArrayCityModel cc = gson.fromJson(res, ArrayCityModel.class);
             System.out.println(cc.getCount());
-            System.out.println(cc.getCount());
-//            https://github.com/google/gson/blob/master/UserGuide.md#TOC-Object-Examples
+            for(int i=0;i<cc.getCount();i++){
+                result.add(cc.list[i].getName());
+            }
         }
-
+        Log.i(ConfigActivity.TAG_SERVICE, " CityModel getLikeNameCity ->  " + result.toString());
+        return result;
     }
-//       static public String getObjFromJson(String sjosn, String nameParrent, String nameChild)
 
 }
 

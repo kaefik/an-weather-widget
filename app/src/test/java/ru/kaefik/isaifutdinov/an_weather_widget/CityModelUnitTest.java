@@ -12,7 +12,7 @@ public class CityModelUnitTest {
     public void testgetLike() throws Exception {
         CityModel city= new CityModel("Kazan");
         city.setMYAPPID("76d6de6e46c704733f12c8738307dbb5");
-        city.getLikeNameCity("Kazan");
+        System.out.println(city.getLikeNameCity("Kazan"));
 //        city.getHttpWeather();
 
 //        assertEquals(4, 2 + 2);

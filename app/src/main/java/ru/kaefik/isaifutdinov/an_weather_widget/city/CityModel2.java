@@ -1,10 +1,11 @@
 package ru.kaefik.isaifutdinov.an_weather_widget.city;
 
- // класс информации о погоде города - вторая редакция специально для разбора json c помощью gson
+// класс информации о погоде города - вторая редакция специально для разбора json c помощью gson
 public class CityModel2 {
-     long id;
-     String name;
-     Float temp;
+     long id; // ID города
+     String name;  // название города
+//    @SerializedName("temp")
+
 
      public CityModel2(long id, String name) {
          this.id = id;
