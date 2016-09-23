@@ -25,4 +25,7 @@ public class ArrayCityModel {
     public CityModel2[] getList() {
         return list;
     }
+    public CityModel2 getList(int ii) {
+        return list[ii];
+    }
 }

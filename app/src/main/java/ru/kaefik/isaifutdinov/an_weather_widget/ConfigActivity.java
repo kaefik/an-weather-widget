@@ -9,16 +9,12 @@ package ru.kaefik.isaifutdinov.an_weather_widget;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -29,12 +25,11 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import ru.kaefik.isaifutdinov.an_weather_widget.adapter.CityModelListAdapter;
 import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel;
-import ru.kaefik.isaifutdinov.an_weather_widget.utils.Utils;
+import ru.kaefik.isaifutdinov.an_weather_widget.utils.RequestCode;
 
 // конфигурирование виджета при помещении его на раб столе
 public class ConfigActivity extends AppCompatActivity {
@@ -58,25 +53,9 @@ public class ConfigActivity extends AppCompatActivity {
 
     private CityModel mCityModel;
 
-    private cityInfoAsyncTask mTask;
+//    private cityInfoAsyncTask mTask;
 
 
-    class cityInfoAsyncTask extends AsyncTask<String, Void, ArrayList<String>> {
-        @Override
-        protected ArrayList<String> doInBackground(String... voids) {
-            ArrayList<String> rr=new ArrayList<String>();
-
-                // TODO: не нравится что использую в этом классе объект mCityDataWeather
-                rr = mCityModel.getLikeNameCity(voids[0]);
-
-            return rr;
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<String>  cityModel) {
-            super.onPostExecute(cityModel);
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,72 +141,47 @@ public class ConfigActivity extends AppCompatActivity {
     }
 
 
-    // добавления нового города
-    public void onClickAddCity(View v) throws InterruptedException, ExecutionException, TimeoutException {
-        String newCity = Utils.firstUpCaseString(nameCityEditText.getText().toString().trim());
-        // TODO: СЮДА ДОБАВИТЬ ДОПОЛНИТЕЛЬНЫЕ ПРОВЕРКИ ВВОДА НАЗВАНИЯ ГОРОДА
-        if (!newCity.equals("")) {
+//    // добавления нового города - старая версия
+//    public void onClickAddCity(View v) throws InterruptedException, ExecutionException, TimeoutException {
+//        String newCity = Utils.firstUpCaseString(nameCityEditText.getText().toString().trim());
+//        // TODO: СЮДА ДОБАВИТЬ ДОПОЛНИТЕЛЬНЫЕ ПРОВЕРКИ ВВОДА НАЗВАНИЯ ГОРОДА
+//        if (!newCity.equals("")) {
+//
+////            getLikeNameCity(newCity);
+//            mListDataCity.add(newCity);
+//            Toast.makeText(getApplicationContext(), newCity, Toast.LENGTH_SHORT).show();
+//        }
+//        nameCityEditText.setText("");
+//        // прячем клавиатуру
+//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//        if (imm != null) {
+//            imm.hideSoftInputFromWindow(nameCityEditText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+//        }
+//        saveListCity();
+//    }
 
-            // вывести похожие названия которые найдены и вывести диалоговое окно для выбора нужного города
-            Log.i(TAG_SERVICE, " onClickAddCity -> newCity " +newCity);
-            CityModel cc = new CityModel("");
-            cc.setMYAPPID("76d6de6e46c704733f12c8738307dbb5");
-            final String[] ss = getLikeNameCity();
-            Log.i(TAG_SERVICE, " onClickAddCity -> ss " + ss.toString());
+    // добавления нового города вызовом активити
+    public void onClickAddCityStartSearchActivity(View v) throws InterruptedException, ExecutionException, TimeoutException {
+        Intent intent = new Intent(getApplicationContext(), AddNewCityActivity.class);
+        Log.i(TAG_SERVICE, "onClickAddCityStartSearchActivity   ->  start");
+        startActivityForResult(intent, RequestCode.REQUEST_CODE_NEW_CITY_ADD);
+        Log.i(TAG_SERVICE, "onClickAddCityStartSearchActivity   ->  end");
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Какой город добавить?")
-                    .setCancelable(false)
-                    // добавляем одну кнопку для закрытия диалога
-                    .setNeutralButton("Назад",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,
-                                                    int id) {
-                                    dialog.cancel();
-                                }
-                            })
-                    // добавляем переключатели
-                    .setSingleChoiceItems(ss, -1,
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int item) {
-                                    Toast.makeText(
-                                            getApplicationContext(),
-                                            "Найденные города: "
-                                                    + ss[item],
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            });
-            builder.create();
-
-
-
-            mListDataCity.add(newCity);
-            Toast.makeText(getApplicationContext(), newCity, Toast.LENGTH_SHORT).show();
-        }
-        nameCityEditText.setText("");
-        // прячем клавиатуру
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm != null) {
-            imm.hideSoftInputFromWindow(nameCityEditText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        }
-        saveListCity();
     }
 
 
-    // обновление данных о погоде
-    public String[] getLikeNameCity() throws ExecutionException, InterruptedException,TimeoutException {
-        Log.i(AnWeatherWidget.TAG_SERVICE, "start getLikeNameCity()");
-        if (mTask != null) {
-            mTask.cancel(true);
-        }
-        mTask = new cityInfoAsyncTask();
-
-        Log.i(AnWeatherWidget.TAG_SERVICE, "getLikeNameCity() -> mTask.execute()");
-        mTask.execute();
-        return mTask.get(10, TimeUnit.SECONDS).toArray(new String[0]);
-    }
+//    // обновление данных о погоде
+//    public String[] getLikeNameCity(String searchNameCity) throws ExecutionException, InterruptedException, TimeoutException {
+//        Log.i(AnWeatherWidget.TAG_SERVICE, "start getLikeNameCity()");
+//        if (mTask != null) {
+//            mTask.cancel(true);
+//        }
+//        mTask = new cityInfoAsyncTask();
+//
+//        Log.i(AnWeatherWidget.TAG_SERVICE, "getLikeNameCity() -> mTask.execute()");
+//        mTask.execute(searchNameCity);
+//        return mTask.get(5, TimeUnit.SECONDS).toArray(new String[0]);
+//    }
 
 
     // сохранение списка названий городов
@@ -269,5 +223,39 @@ public class ConfigActivity extends AppCompatActivity {
         mNameCity.invalidateViews();
     }
 
+    @Override
+    // прием данных CityModel выбраного города из другое активити
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case RequestCode.REQUEST_CODE_NEW_CITY_ADD:
+//                    CityModel tmpCityData = new CityModel();
+//                    try {
+//                        tmpCityData.getExtraIntent(intent);
+//                    } catch (ParseException e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    for (int i = 0; i < mListDataCity.size(); i++) {
+//                        if (mListDataCity.get(i).getName().equals(tmpCityData.getName())) {
+//                            mListDataCity.get(i).setTemp(tmpCityData.getTemp());
+//                            mListDataCity.get(i).setId(tmpCityData.getId());
+//                            mListDataCity.get(i).setCountry(tmpCityData.getCountry());
+//                            mListDataCity.get(i).setClouds(tmpCityData.getClouds());
+//                            mListDataCity.get(i).setPressure(tmpCityData.getPressure());
+//                            mListDataCity.get(i).setHuminidity(tmpCityData.getHuminidity());
+//                            mListDataCity.get(i).setWinddirection(tmpCityData.getWinddirection());
+//                            mListDataCity.get(i).setWindspeed(tmpCityData.getWindspeed());
+//                            mListDataCity.get(i).setTimeRefresh(tmpCityData.getTimeRefresh());
+//                        }
+//                    }
+                    break;
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT);
+        }
+        mNameCity.invalidateViews();
+
+    }
 }
