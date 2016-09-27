@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -25,7 +26,7 @@ public class AddNewCityActivity extends AppCompatActivity {
     RecyclerView mresultSearchRecycleView;
     String mResult;
     cityInfoAsyncTask mTask;
-    ArrayList<String> mListView;
+    List<String> mListView;
     Button btnSearch;
 
     private RecyclerView mRecyclerView;
@@ -52,7 +53,7 @@ public class AddNewCityActivity extends AppCompatActivity {
 
             final String[] ss = result.toArray(new String[0]);
             Log.i(ConfigActivity.TAG_SERVICE, " AddNewCityActivity: onPostExecute -> ss " + ss.toString());
-
+            mListView = result;
 //            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
 //            builder.setTitle("Какой город добавить?")
 //                    .setCancelable(false)
@@ -92,7 +93,6 @@ public class AddNewCityActivity extends AppCompatActivity {
         mnameCityEditText = (EditText) findViewById(R.id.nameCityEditText);
         mresultSearchRecycleView = (RecyclerView) findViewById(R.id.resultSearchRecycleView);
 
-        mListView = new ArrayList<String>();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.resultSearchRecycleView);
 
@@ -104,9 +104,23 @@ public class AddNewCityActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+
+        Log.i(ConfigActivity.TAG_SERVICE, " AddNewCityActivity: onCreate -> ");
+        mListView = new ArrayList<String>();
+        mListView.add(0, "Kazans");
+        mListView.add(1, "Kazahstan");
+        Log.i(ConfigActivity.TAG_SERVICE, " AddNewCityActivity: onCreate  mListView -> " + mListView.toString());
+
+        String[] stringArray = mListView.toArray(new String[0]);
+        Log.i(ConfigActivity.TAG_SERVICE, " AddNewCityActivity: onCreate  stringArray -> " + stringArray.toString());
+
+
         // specify an adapter (see also next example)
-        mAdapter = new CityModelRecyclerAdapter(mListView.toArray(new String[0]));
+        mAdapter = new CityModelRecyclerAdapter(mListView);
         mRecyclerView.setAdapter(mAdapter);
+        Log.i(ConfigActivity.TAG_SERVICE, " AddNewCityActivity: onCreate  stringArray -> " + stringArray.toString());
+
+
 
         btnSearch = (Button) findViewById(R.id.searchButton);
         View.OnClickListener oclBtnSearch = new View.OnClickListener() {
@@ -131,10 +145,15 @@ public class AddNewCityActivity extends AppCompatActivity {
                 } catch (TimeoutException e) {
                     e.printStackTrace();
                 }
-//                .toArray(new String[0]);
+                Log.i(AnWeatherWidget.TAG_SERVICE, "onSearchClickButton() -> mListView " + mListView.toString());
+                mRecyclerView.getAdapter().notifyDataSetChanged();
 
             }
         };
+
+//        mAdapter = new CityModelRecyclerAdapter(mListView.toArray(new String[0]));
+//        mRecyclerView.setAdapter(mAdapter);
+
 
         btnSearch.setOnClickListener(oclBtnSearch);
 

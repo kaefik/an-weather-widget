@@ -39,21 +39,21 @@
     </item>
     <item
         is-multidex="true"
-        jar="C:\prj-android\an-weather-widget\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.0\jars\libs\internal_impl-24.2.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="24.0.0"
-        sha1="045be695d968dd707691cc55d23746dbf8cf569a">
-        <dex dex="C:\prj-android\an-weather-widget\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.0_86650a04b57c552a6a53a2df307340200efafe80\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
         jar="C:\Users\i.saifutdinov\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.7\751f548c85fa49f330cecbb1875893f971b33c4e\gson-2.7.jar"
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
         sha1="751f548c85fa49f330cecbb1875893f971b33c4e">
         <dex dex="C:\prj-android\an-weather-widget\app\build\intermediates\transforms\dex\debug\folders\1000\10\gson-2.7_adff7d02758cb6634133112f83c4408c5bd1350e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\prj-android\an-weather-widget\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\24.2.0\jars\libs\internal_impl-24.2.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.0"
+        sha1="045be695d968dd707691cc55d23746dbf8cf569a">
+        <dex dex="C:\prj-android\an-weather-widget\app\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-24.2.0_86650a04b57c552a6a53a2df307340200efafe80\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -70,7 +70,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
-        sha1="33e2a6d18d98a6fc6725d1734441bd511af051e7">
+        sha1="a20beb971f54562edd42d664b98a609135a59e10">
         <dex dex="C:\prj-android\an-weather-widget\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_18c1cf8637a0ad2a60023bd2414ee3979414b713\classes.dex" />
     </item>
     <item
@@ -178,7 +178,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
-        sha1="7cbe2af1c040ea4036aab14355e561ea80c9549c">
+        sha1="86510cf28e0030718791cbc2e40dd34305318e3c">
         <dex dex="C:\prj-android\an-weather-widget\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_88040eabfd5726ebef7a482ec14680efc6ccff10\classes.dex" />
     </item>
 
