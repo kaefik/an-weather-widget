@@ -87,10 +87,14 @@ public class AddNewCityActivity extends AppCompatActivity {
 
 
         // specify an adapter (see also next example)
-        mAdapter = new CityModelRecyclerAdapter(mListView);
+        mAdapter = new CityModelRecyclerAdapter(mListView, new CityModelRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String item) {
+                Log.i(ConfigActivity.TAG_SERVICE, " выбран элемент  -> " + item);
+            }
+        });
         mRecyclerView.setAdapter(mAdapter);
         Log.i(ConfigActivity.TAG_SERVICE, " AddNewCityActivity: onCreate  stringArray -> " + stringArray.toString());
-
 
 
         btnSearch = (Button) findViewById(R.id.searchButton);
@@ -118,7 +122,12 @@ public class AddNewCityActivity extends AppCompatActivity {
                 }
                 Log.i(AnWeatherWidget.TAG_SERVICE, "onSearchClickButton() -> mListView " + mListView.toString());
 
-                mRecyclerView.setAdapter(new CityModelRecyclerAdapter(mListView));
+                mRecyclerView.setAdapter(new CityModelRecyclerAdapter(mListView, new CityModelRecyclerAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(String item) {
+                        Log.i(ConfigActivity.TAG_SERVICE, " выбран элемент  -> " + item);
+                    }
+                }));
 
             }
         };

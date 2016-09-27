@@ -17,6 +17,13 @@ public class CityModelRecyclerAdapter extends RecyclerView.Adapter<CityModelRecy
 
     private List<String> mDataSet;
 
+    private final OnItemClickListener listener;
+
+
+    public interface OnItemClickListener {
+        void onItemClick(String item);
+    }
+
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -29,12 +36,27 @@ public class CityModelRecyclerAdapter extends RecyclerView.Adapter<CityModelRecy
             super(view);
             mTextView = (TextView) view.findViewById(R.id.ItemTextView);
         }
+
+        public void bind(final String item, final OnItemClickListener listener) {
+
+            mTextView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    listener.onItemClick(item);
+                }
+            });
+        }
     }
 
-    // Provide a suitable constructor (depends on the kind of dataset)
-    public CityModelRecyclerAdapter(List<String> myDataset) {
-        mDataSet = myDataset;
+//    // Provide a suitable constructor (depends on the kind of dataset)
+//    public CityModelRecyclerAdapter(List<String> myDataset) {
+//        mDataSet = myDataset;
+//    }
+
+    public CityModelRecyclerAdapter(List<String> myDataset, OnItemClickListener listener) {
+        this.mDataSet = myDataset;
+        this.listener = listener;
     }
+
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -60,7 +82,11 @@ public class CityModelRecyclerAdapter extends RecyclerView.Adapter<CityModelRecy
 
         holder.mTextView.setText(dataProvider);
 
+        holder.bind(dataProvider, listener);
+
     }
+
+
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
