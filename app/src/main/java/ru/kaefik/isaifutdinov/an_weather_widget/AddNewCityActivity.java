@@ -1,8 +1,10 @@
 package ru.kaefik.isaifutdinov.an_weather_widget;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -86,11 +88,29 @@ public class AddNewCityActivity extends AppCompatActivity {
         Log.i(ConfigActivity.TAG_SERVICE, " AddNewCityActivity: onCreate  stringArray -> " + stringArray.toString());
 
 
-        // specify an adapter (see also next example)
         mAdapter = new CityModelRecyclerAdapter(mListView, new CityModelRecyclerAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(String item) {
+            public void onItemClick(final String item) {
                 Log.i(ConfigActivity.TAG_SERVICE, " выбран элемент  -> " + item);
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AddNewCityActivity.this);
+                builder.setTitle("Сделали правильный выбор?");
+                builder.setMessage(item);
+                builder.setCancelable(true);
+                builder.setPositiveButton("Да", new DialogInterface.OnClickListener() { // Кнопка ОК
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.i(ConfigActivity.TAG_SERVICE, " AlertDialog  выбран элемент  -> " + item);
+                        setResult(item);
+                        dialog.dismiss(); // Отпускает диалоговое окно
+                        goBackConfigActivity();
+//                        finish();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
             }
         });
         mRecyclerView.setAdapter(mAdapter);
@@ -124,8 +144,25 @@ public class AddNewCityActivity extends AppCompatActivity {
 
                 mRecyclerView.setAdapter(new CityModelRecyclerAdapter(mListView, new CityModelRecyclerAdapter.OnItemClickListener() {
                     @Override
-                    public void onItemClick(String item) {
+                    public void onItemClick(final String item) {
                         Log.i(ConfigActivity.TAG_SERVICE, " выбран элемент  -> " + item);
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(AddNewCityActivity.this);
+                        builder.setTitle("Сделали правильный выбор?");
+                        builder.setMessage(item);
+                        builder.setCancelable(true);
+                        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() { // Кнопка ОК
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.i(ConfigActivity.TAG_SERVICE, " AlertDialog  выбран элемент  -> " + item);
+                                setResult(item);
+                                dialog.dismiss(); // Отпускает диалоговое окно
+                                goBackConfigActivity();
+//                                finish();
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
                 }));
 

@@ -141,25 +141,6 @@ public class ConfigActivity extends AppCompatActivity {
     }
 
 
-//    // добавления нового города - старая версия
-//    public void onClickAddCity(View v) throws InterruptedException, ExecutionException, TimeoutException {
-//        String newCity = Utils.firstUpCaseString(nameCityEditText.getText().toString().trim());
-//        // TODO: СЮДА ДОБАВИТЬ ДОПОЛНИТЕЛЬНЫЕ ПРОВЕРКИ ВВОДА НАЗВАНИЯ ГОРОДА
-//        if (!newCity.equals("")) {
-//
-////            getLikeNameCity(newCity);
-//            mListDataCity.add(newCity);
-//            Toast.makeText(getApplicationContext(), newCity, Toast.LENGTH_SHORT).show();
-//        }
-//        nameCityEditText.setText("");
-//        // прячем клавиатуру
-//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//        if (imm != null) {
-//            imm.hideSoftInputFromWindow(nameCityEditText.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-//        }
-//        saveListCity();
-//    }
-
     // добавления нового города вызовом активити
     public void onClickAddCityStartSearchActivity(View v) throws InterruptedException, ExecutionException, TimeoutException {
         Intent intent = new Intent(getApplicationContext(), AddNewCityActivity.class);
@@ -225,31 +206,16 @@ public class ConfigActivity extends AppCompatActivity {
 
     @Override
     // прием данных CityModel выбраного города из другое активити
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case RequestCode.REQUEST_CODE_NEW_CITY_ADD:
-//                    CityModel tmpCityData = new CityModel();
-//                    try {
-//                        tmpCityData.getExtraIntent(intent);
-//                    } catch (ParseException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    for (int i = 0; i < mListDataCity.size(); i++) {
-//                        if (mListDataCity.get(i).getName().equals(tmpCityData.getName())) {
-//                            mListDataCity.get(i).setTemp(tmpCityData.getTemp());
-//                            mListDataCity.get(i).setId(tmpCityData.getId());
-//                            mListDataCity.get(i).setCountry(tmpCityData.getCountry());
-//                            mListDataCity.get(i).setClouds(tmpCityData.getClouds());
-//                            mListDataCity.get(i).setPressure(tmpCityData.getPressure());
-//                            mListDataCity.get(i).setHuminidity(tmpCityData.getHuminidity());
-//                            mListDataCity.get(i).setWinddirection(tmpCityData.getWinddirection());
-//                            mListDataCity.get(i).setWindspeed(tmpCityData.getWindspeed());
-//                            mListDataCity.get(i).setTimeRefresh(tmpCityData.getTimeRefresh());
-//                        }
-//                    }
+
+                    String res = data.getStringExtra("name");//
+                    Log.i(TAG_SERVICE, "ConfigActivity  onActivityResult()   -> получен результат " + res);
+                    mListDataCity.add(res);
+                    saveListCity();
+                    mNameCity.invalidateViews();
                     break;
             }
         } else {

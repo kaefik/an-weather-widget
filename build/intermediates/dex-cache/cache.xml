@@ -70,7 +70,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
-        sha1="f61d4508b61c2ae4897739587ece1faca8d742b9">
+        sha1="c59784e6b4317962d7074009ee59a18cb6a63a79">
         <dex dex="/home/oilnur/prj/an-weather-widget/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_b272348ebcfca2e57cd3c5ee17c0ea95fc13ee44/classes.dex" />
     </item>
     <item
@@ -169,7 +169,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
-        sha1="94ec729291fbe960f4f6edf1afa7c4c66e74fead">
+        sha1="e76b9d6ccd7981513b7803158af5b3a21092d873">
         <dex dex="/home/oilnur/prj/an-weather-widget/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_03cf01b9e549a55824773a5419346bbbfc7f9eee/classes.dex" />
     </item>
     <item
