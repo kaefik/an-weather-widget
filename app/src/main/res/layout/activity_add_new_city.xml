@@ -28,7 +28,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/searchButton"
-        android:id="@+id/resultSearchRecycleView"/>
+        android:id="@+id/resultSearchRecycleView"
+        android:scrollbars="vertical" />
 
     <Button
         android:text="Поиск"

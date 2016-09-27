@@ -54,33 +54,6 @@ public class AddNewCityActivity extends AppCompatActivity {
             final String[] ss = result.toArray(new String[0]);
             Log.i(ConfigActivity.TAG_SERVICE, " AddNewCityActivity: onPostExecute -> ss " + ss.toString());
             mListView = result;
-//            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-//            builder.setTitle("Какой город добавить?")
-//                    .setCancelable(false)
-//                    // добавляем одну кнопку для закрытия диалога
-//                    .setNeutralButton("Назад",
-//                            new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog,
-//                                                    int id) {
-//                                    dialog.cancel();
-//                                }
-//                            })
-//                    // добавляем переключатели
-//                    .setSingleChoiceItems(ss, -1,
-//                            new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog,
-//                                                    int item) {
-//                                    Log.i(TAG_SERVICE, " onPostExecute setSingleChoiceItems -> выбран элемент " + ss[item]);
-//                                    Toast.makeText(
-//                                            getApplicationContext(),
-//                                            "Найденные города: "
-//                                                    + ss[item],
-//                                            Toast.LENGTH_SHORT).show();
-//                                }
-//                            });
-//            builder.create();
-
         }
     }
 
@@ -98,7 +71,7 @@ public class AddNewCityActivity extends AppCompatActivity {
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(false);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
@@ -107,8 +80,6 @@ public class AddNewCityActivity extends AppCompatActivity {
 
         Log.i(ConfigActivity.TAG_SERVICE, " AddNewCityActivity: onCreate -> ");
         mListView = new ArrayList<String>();
-        mListView.add(0, "Kazans");
-        mListView.add(1, "Kazahstan");
         Log.i(ConfigActivity.TAG_SERVICE, " AddNewCityActivity: onCreate  mListView -> " + mListView.toString());
 
         String[] stringArray = mListView.toArray(new String[0]);
@@ -146,34 +117,16 @@ public class AddNewCityActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 Log.i(AnWeatherWidget.TAG_SERVICE, "onSearchClickButton() -> mListView " + mListView.toString());
-                mRecyclerView.getAdapter().notifyDataSetChanged();
+
+                mRecyclerView.setAdapter(new CityModelRecyclerAdapter(mListView));
 
             }
         };
-
-//        mAdapter = new CityModelRecyclerAdapter(mListView.toArray(new String[0]));
-//        mRecyclerView.setAdapter(mAdapter);
-
 
         btnSearch.setOnClickListener(oclBtnSearch);
 
     }
 
-//    // Обработка кнопки поиска
-//    public void onSearchClick(View view) throws InterruptedException, ExecutionException, TimeoutException {
-//
-//        Log.i(AnWeatherWidget.TAG_SERVICE, "start onSearchClickButton()");
-//        if (mTask != null) {
-//            mTask.cancel(true);
-//        }
-//        mTask = new cityInfoAsyncTask();
-//
-//        Log.i(AnWeatherWidget.TAG_SERVICE, "onSearchClickButton() -> mTask.execute()");
-//        mTask.execute(mResult);
-//        mListView = mTask.get(5, TimeUnit.SECONDS);
-////                .toArray(new String[0]);
-//
-//    }
 
     // возврат к основной активити MainActivity
     public void goBackConfigActivity() {
