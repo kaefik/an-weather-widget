@@ -208,9 +208,11 @@ public class CityModel {
             System.out.println("Ошибка при обновлении данных");
         } else {
             if (Utils.getObjFromJson(res, "name", null).equals(this.mName)) {
-                setTemp(Float.parseFloat(Utils.getObjFromJson(res, "temp", "temp")));
-                setPressure(Float.parseFloat(Utils.getObjFromJson(res, "temp", "pressure")));
-                setHuminidity(Float.parseFloat(Utils.getObjFromJson(res, "temp", "humidity")));
+//                Log.i(AddNewCityActivity.TAG_SERVICE, " res json -> " + res);
+                setTemp(Float.parseFloat(Utils.getObjFromJson(res, "main", "temp")));
+//                Log.i(AddNewCityActivity.TAG_SERVICE, " temp json -> " + Utils.getObjFromJson(res, "main", "temp"));
+                setPressure(Float.parseFloat(Utils.getObjFromJson(res, "main", "pressure")));
+                setHuminidity(Float.parseFloat(Utils.getObjFromJson(res, "main", "humidity")));
                 setWindspeed(Float.parseFloat(Utils.getObjFromJson(res, "wind", "speed")));
                 setWinddirection(Float.parseFloat(Utils.getObjFromJson(res, "wind", "deg")));
                 setCountry(Utils.getObjFromJson(res, "sys", "country"));

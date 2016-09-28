@@ -8,5 +8,5 @@
     android:resizeMode="horizontal"
     android:updatePeriodMillis="8640000"
     android:widgetCategory="home_screen"
-    android:configure="ru.kaefik.isaifutdinov.an_weather_widget.ConfigActivity">
+    android:configure="ru.kaefik.isaifutdinov.an_weather_widget.AddNewCityActivity">
 </appwidget-provider>

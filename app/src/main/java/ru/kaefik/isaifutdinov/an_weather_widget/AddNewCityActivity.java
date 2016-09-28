@@ -1,7 +1,10 @@
 package ru.kaefik.isaifutdinov.an_weather_widget;
 
+import android.appwidget.AppWidgetManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -12,6 +15,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +39,12 @@ public class AddNewCityActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private int mAppWidgetId; // ID текущего виджета
+
+    public static String TAG_SERVICE = "AnWeatherWidget";
+    public static final String WIDGET_PREF = "anweatherwidgetconfig";
+    private SharedPreferences mSPref;//файл настроек
 
 
     // принимает входной параметр - назв-е города который нужно искать, выходной параметр это то что было выбрано из предоставленных вариантов
@@ -64,6 +75,22 @@ public class AddNewCityActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_city);
+
+        setResult(RESULT_CANCELED);
+
+
+        Log.i(TAG_SERVICE, "onStart  ConfigActivity");
+        //-----------------------
+        mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
+                    AppWidgetManager.INVALID_APPWIDGET_ID);
+        }
+
+        final Context context = this;
+
 
         mnameCityEditText = (EditText) findViewById(R.id.nameCityEditText);
         mresultSearchRecycleView = (RecyclerView) findViewById(R.id.resultSearchRecycleView);
@@ -101,11 +128,8 @@ public class AddNewCityActivity extends AppCompatActivity {
                 builder.setPositiveButton("Да", new DialogInterface.OnClickListener() { // Кнопка ОК
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.i(ConfigActivity.TAG_SERVICE, " AlertDialog  выбран элемент  -> " + item);
-                        setResult(item);
-                        dialog.dismiss(); // Отпускает диалоговое окно
-                        goBackConfigActivity();
-//                        finish();
+
+
                     }
                 });
                 AlertDialog dialog = builder.create();
@@ -114,7 +138,7 @@ public class AddNewCityActivity extends AppCompatActivity {
             }
         });
         mRecyclerView.setAdapter(mAdapter);
-        Log.i(ConfigActivity.TAG_SERVICE, " AddNewCityActivity: onCreate  stringArray -> " + stringArray.toString());
+        Log.i(TAG_SERVICE, " AddNewCityActivity: onCreate  stringArray -> " + stringArray.toString());
 
 
         btnSearch = (Button) findViewById(R.id.searchButton);
@@ -157,8 +181,20 @@ public class AddNewCityActivity extends AppCompatActivity {
                                 Log.i(ConfigActivity.TAG_SERVICE, " AlertDialog  выбран элемент  -> " + item);
                                 setResult(item);
                                 dialog.dismiss(); // Отпускает диалоговое окно
-                                goBackConfigActivity();
-//                                finish();
+
+                                saveStringParametersToCfg(context, String.valueOf(mAppWidgetId), getResult());
+
+                                Intent resulValue = new Intent(AnWeatherWidget.CLICK_WIDGET_BUTTON);
+                                resulValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+                                //обновление виджета после отработки ConfigActivity
+                                try {
+                                    AnWeatherWidget.updateAppWidget(context, AppWidgetManager.getInstance(context), mAppWidgetId);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                setResult(RESULT_OK, resulValue);
+                                finish();
+
                             }
                         });
                         AlertDialog dialog = builder.create();
@@ -173,6 +209,47 @@ public class AddNewCityActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        Log.i(TAG_SERVICE, "onStart  ConfigActivity");
+//        //-----------------------
+//        mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+//        Intent intent = getIntent();
+//        Bundle extras = intent.getExtras();
+//        if (extras != null) {
+//            mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
+//                    AppWidgetManager.INVALID_APPWIDGET_ID);
+//        }
+
+//        final Context context = this;
+
+        //-----------------------
+
+//        // Обработка события на клик по элементу списка
+//        mNameCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String cityNameString = adapter.getCityModel(position);
+//
+//                Log.i(TAG_SERVICE, " OnItemClick  ConfigActivity -> выбран город " + cityNameString + "  id виджета: " + String.valueOf(mAppWidgetId));
+//
+//                saveStringParametersToCfg(context, String.valueOf(mAppWidgetId), cityNameString);
+//
+//                Intent resulValue = new Intent(AnWeatherWidget.CLICK_WIDGET_BUTTON);
+//                resulValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+//                //обновление виджета после отработки ConfigActivity
+//                try {
+//                    AnWeatherWidget.updateAppWidget(context, AppWidgetManager.getInstance(context), mAppWidgetId);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                setResult(RESULT_OK, resulValue);
+//                finish();
+//            }
+//        });
+    }
 
     // возврат к основной активити MainActivity
     public void goBackConfigActivity() {
@@ -192,5 +269,27 @@ public class AddNewCityActivity extends AppCompatActivity {
     public String getResult() {
         return mResult;
     }
+
+
+    //сохранение параметра-строки  в файл параметров
+    public void saveStringParametersToCfg(Context context, String parameters, String values) {
+        mSPref = context.getSharedPreferences(WIDGET_PREF, MODE_PRIVATE);
+        if (mSPref != null) {
+            SharedPreferences.Editor ed = mSPref.edit();
+            ed.putString(parameters, values);
+            ed.apply();
+        }
+    }
+
+    // загрузка строки из файл параметров
+    public static String loadStringParametersFromFile(Context context, String parameters) {
+        String resSet;
+        SharedPreferences mSPref = context.getSharedPreferences(WIDGET_PREF, MODE_PRIVATE);
+        ;
+        resSet = mSPref.getString(parameters, "");
+        if (resSet == null) resSet = "";
+        return resSet;
+    }
+
 }
 
