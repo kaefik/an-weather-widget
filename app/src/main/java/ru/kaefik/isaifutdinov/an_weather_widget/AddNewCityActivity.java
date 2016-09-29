@@ -54,7 +54,7 @@ public class AddNewCityActivity extends AppCompatActivity {
             ArrayList<String> rr = new ArrayList<String>();
 
             // TODO: не нравится что использую в этом классе объект mCityDataWeather
-            Log.i(ConfigActivity.TAG_SERVICE, " AddNewCityActivity: onPostExecute -> voids[0] " + voids[0]);
+            Log.i(AddNewCityActivity.TAG_SERVICE, " AddNewCityActivity: onPostExecute -> voids[0] " + voids[0]);
             rr = Utils.getLikeNameCity(voids[0]);
 
             return rr;
@@ -65,7 +65,7 @@ public class AddNewCityActivity extends AppCompatActivity {
 //            super.onPostExecute(result);
 
             final String[] ss = result.toArray(new String[0]);
-            Log.i(ConfigActivity.TAG_SERVICE, " AddNewCityActivity: onPostExecute -> ss " + ss.toString());
+            Log.i(AddNewCityActivity.TAG_SERVICE, " AddNewCityActivity: onPostExecute -> ss " + ss.toString());
             mListView = result;
         }
     }
@@ -107,18 +107,18 @@ public class AddNewCityActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
-        Log.i(ConfigActivity.TAG_SERVICE, " AddNewCityActivity: onCreate -> ");
+        Log.i(AddNewCityActivity.TAG_SERVICE, " AddNewCityActivity: onCreate -> ");
         mListView = new ArrayList<String>();
-        Log.i(ConfigActivity.TAG_SERVICE, " AddNewCityActivity: onCreate  mListView -> " + mListView.toString());
+        Log.i(AddNewCityActivity.TAG_SERVICE, " AddNewCityActivity: onCreate  mListView -> " + mListView.toString());
 
         String[] stringArray = mListView.toArray(new String[0]);
-        Log.i(ConfigActivity.TAG_SERVICE, " AddNewCityActivity: onCreate  stringArray -> " + stringArray.toString());
+        Log.i(AddNewCityActivity.TAG_SERVICE, " AddNewCityActivity: onCreate  stringArray -> " + stringArray.toString());
 
 
         mAdapter = new CityModelRecyclerAdapter(mListView, new CityModelRecyclerAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(final String item) {
-                Log.i(ConfigActivity.TAG_SERVICE, " выбран элемент  -> " + item);
+                Log.i(AddNewCityActivity.TAG_SERVICE, " выбран элемент  -> " + item);
 
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(AddNewCityActivity.this);
@@ -169,7 +169,7 @@ public class AddNewCityActivity extends AppCompatActivity {
                 mRecyclerView.setAdapter(new CityModelRecyclerAdapter(mListView, new CityModelRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(final String item) {
-                        Log.i(ConfigActivity.TAG_SERVICE, " выбран элемент  -> " + item);
+                        Log.i(AddNewCityActivity.TAG_SERVICE, " выбран элемент  -> " + item);
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(AddNewCityActivity.this);
                         builder.setTitle("Сделали правильный выбор?");
@@ -178,7 +178,7 @@ public class AddNewCityActivity extends AppCompatActivity {
                         builder.setPositiveButton("Да", new DialogInterface.OnClickListener() { // Кнопка ОК
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Log.i(ConfigActivity.TAG_SERVICE, " AlertDialog  выбран элемент  -> " + item);
+                                Log.i(AddNewCityActivity.TAG_SERVICE, " AlertDialog  выбран элемент  -> " + item);
                                 setResult(item);
                                 dialog.dismiss(); // Отпускает диалоговое окно
 
@@ -209,58 +209,6 @@ public class AddNewCityActivity extends AppCompatActivity {
 
     }
 
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-//        Log.i(TAG_SERVICE, "onStart  ConfigActivity");
-//        //-----------------------
-//        mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
-//        Intent intent = getIntent();
-//        Bundle extras = intent.getExtras();
-//        if (extras != null) {
-//            mAppWidgetId = extras.getInt(AppWidgetManager.EXTRA_APPWIDGET_ID,
-//                    AppWidgetManager.INVALID_APPWIDGET_ID);
-//        }
-
-//        final Context context = this;
-
-        //-----------------------
-
-//        // Обработка события на клик по элементу списка
-//        mNameCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String cityNameString = adapter.getCityModel(position);
-//
-//                Log.i(TAG_SERVICE, " OnItemClick  ConfigActivity -> выбран город " + cityNameString + "  id виджета: " + String.valueOf(mAppWidgetId));
-//
-//                saveStringParametersToCfg(context, String.valueOf(mAppWidgetId), cityNameString);
-//
-//                Intent resulValue = new Intent(AnWeatherWidget.CLICK_WIDGET_BUTTON);
-//                resulValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-//                //обновление виджета после отработки ConfigActivity
-//                try {
-//                    AnWeatherWidget.updateAppWidget(context, AppWidgetManager.getInstance(context), mAppWidgetId);
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//                setResult(RESULT_OK, resulValue);
-//                finish();
-//            }
-//        });
-    }
-
-    // возврат к основной активити MainActivity
-    public void goBackConfigActivity() {
-//        if (mTask != null) {
-//            mTask.cancel(true);
-//        }
-        Intent intent = new Intent(this, ConfigActivity.class);
-        intent.putExtra("name", getResult());
-        setResult(RESULT_OK, intent);
-        finish();
-    }
 
     public void setResult(String result) {
         mResult = result;

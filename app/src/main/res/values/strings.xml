@@ -1,12 +1,11 @@
 <resources>
-    <string name="app_name">an-weather-widget</string>
+    <string name="app_name">Виджет погоды</string>
     <string name="appwidget_text">KAZAN</string>
     <string name="add_widget">Add widget</string>
-    <string name="kazan">KAZAN</string>
-    <string name="temp">25 C</string>
-    <string name="wind">СВ (4 м/с)</string>
-    <string name="_25_08_2016_11_58">25.08.2016 11:58</string>
-    <string name="descriptionWeather">облачно</string>
-    <string name="title_activity_config">ConfigActivity</string>
+    <string name="kazan">город</string>
+    <string name="temp">-- C</string>
+    <string name="wind">-- (-- м/с)</string>
+    <string name="_25_08_2016_11_58">--.--.---- --:--</string>
+    <string name="descriptionWeather">-</string>
     <string name="voborgorod">Выберите город</string>
 </resources>

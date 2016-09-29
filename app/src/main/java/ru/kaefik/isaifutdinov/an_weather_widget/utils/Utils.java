@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import ru.kaefik.isaifutdinov.an_weather_widget.ConfigActivity;
+import ru.kaefik.isaifutdinov.an_weather_widget.AddNewCityActivity;
 import ru.kaefik.isaifutdinov.an_weather_widget.city.ArrayCityModel;
 
 public class Utils {
@@ -303,7 +303,7 @@ public class Utils {
     // возвращает массив строк похожих названий которые найденны
     public static ArrayList<String> getLikeNameCity(String searchNameCity) {
         String APPID ="76d6de6e46c704733f12c8738307dbb5";
-        Log.i(ConfigActivity.TAG_SERVICE, " CityModel getLikeNameCity -> start " );
+        Log.i(AddNewCityActivity.TAG_SERVICE, " CityModel getLikeNameCity -> start " );
         String url = "http://api.openweathermap.org/data/2.5/find?q=" + searchNameCity + "&type=like&APPID=" + APPID;
         ArrayList<String> result = new ArrayList<String>();
         String res = Utils.getHttpRequestFromUrl(url);
@@ -313,14 +313,14 @@ public class Utils {
             // TODO: подумать как лучше обработать данную ветку
             System.out.println("Ошибка при обновлении данных");
         } else {
-            Log.i(ConfigActivity.TAG_SERVICE, " CityModel getLikeNameCity -> res "+res );
+            Log.i(AddNewCityActivity.TAG_SERVICE, " CityModel getLikeNameCity -> res "+res );
             ArrayCityModel cc = gson.fromJson(res, ArrayCityModel.class);
             System.out.println(cc.getCount());
             for(int i=0;i<cc.getCount();i++){
                 result.add(cc.getList(i).getName());
             }
         }
-        Log.i(ConfigActivity.TAG_SERVICE, " CityModel getLikeNameCity ->  " + result.toString());
+        Log.i(AddNewCityActivity.TAG_SERVICE, " CityModel getLikeNameCity ->  " + result.toString());
         return result;
     }
 

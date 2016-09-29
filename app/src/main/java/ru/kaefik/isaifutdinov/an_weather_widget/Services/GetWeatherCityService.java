@@ -48,19 +48,17 @@ public class GetWeatherCityService extends Service {
     }
 
     // обновление данных о погоде
-    public void refreshDataWeather() throws ExecutionException, InterruptedException,TimeoutException {
+    public void refreshDataWeather() throws ExecutionException, InterruptedException, TimeoutException {
         Log.i(AnWeatherWidget.TAG_SERVICE, "start refreshDataWeather()");
         if (mTask != null) {
             mTask.cancel(true);
         }
         mTask = new cityInfoAsyncTask();
 
-            Log.i(AnWeatherWidget.TAG_SERVICE, "mTask.execute()");
-            mTask.execute();
-            mCityModel = mTask.get(5, TimeUnit.SECONDS);
-            saveCityInfoToFile(mCityModel);
-//            Log.i(AnWeatherWidget.TAG_SERVICE,"mTask.execute()");
-
+        Log.i(AnWeatherWidget.TAG_SERVICE, "mTask.execute()");
+        mTask.execute();
+        mCityModel = mTask.get(5, TimeUnit.SECONDS);
+        saveCityInfoToFile(mCityModel);
     }
 
 
@@ -88,13 +86,13 @@ public class GetWeatherCityService extends Service {
             try {
                 refreshDataWeather();
             } catch (ExecutionException e) {
-                Toast.makeText(getApplicationContext(),"Ошибка обновления (ExecutionException)",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Ошибка обновления (ExecutionException)", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             } catch (InterruptedException e) {
-                Toast.makeText(getApplicationContext(),"Ошибка обновления (InterruptedException)",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Ошибка обновления (InterruptedException)", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             } catch (TimeoutException e) {
-                Toast.makeText(getApplicationContext(),"Ошибка обновления (TimeoutException)",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Ошибка обновления (TimeoutException)", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
             Log.i(AnWeatherWidget.TAG_SERVICE, "после refreshDataWeather() имя города: " + mCityModel.getName() + " -> " + mCityModel.getTemp());
@@ -125,7 +123,7 @@ public class GetWeatherCityService extends Service {
 
     // обновление виджета используя широковещательные сообщения
     private void refreshWidget() {
-        Log.i(AnWeatherWidget.TAG_SERVICE, "refreshWidget имя города: " + mCityModel.getName() + " -> " + mCityModel.getTemp()+" mWidgetId = "+String.valueOf(mWidgetId));
+        Log.i(AnWeatherWidget.TAG_SERVICE, "refreshWidget имя города: " + mCityModel.getName() + " -> " + mCityModel.getTemp() + " mWidgetId = " + String.valueOf(mWidgetId));
         // отправка виджету погоды данные о погоде
         Intent intent = new Intent(AnWeatherWidget.FORCE_WIDGET_UPDATE);
         intent.putExtra(AnWeatherWidget.PARAM_CITY, mCityModel.getName());
@@ -159,7 +157,7 @@ public class GetWeatherCityService extends Service {
     }
 
     //    восстановление сохраненых данных о погоде(каждый город-отдельный файл с Josn)
-    public static CityModel restoreCityInfoFromFile(Context context,CityModel cityModel) throws JSONException {
+    public static CityModel restoreCityInfoFromFile(Context context, CityModel cityModel) throws JSONException {
         String nameFile = cityModel.getName();
         if (nameFile != null) {
             cityModel.openFile(nameFile + ".txt", context);
@@ -178,7 +176,5 @@ public class GetWeatherCityService extends Service {
             }
         }
     }
-
-
 
 }

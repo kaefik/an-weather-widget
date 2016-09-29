@@ -5,12 +5,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.TextView;
 
 import java.util.List;
 
-import ru.kaefik.isaifutdinov.an_weather_widget.ConfigActivity;
+import ru.kaefik.isaifutdinov.an_weather_widget.AddNewCityActivity;
 import ru.kaefik.isaifutdinov.an_weather_widget.R;
 
 public class CityModelRecyclerAdapter extends RecyclerView.Adapter<CityModelRecyclerAdapter.ViewHolder> {
@@ -40,17 +39,13 @@ public class CityModelRecyclerAdapter extends RecyclerView.Adapter<CityModelRecy
         public void bind(final String item, final OnItemClickListener listener) {
 
             mTextView.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
+                @Override
+                public void onClick(View v) {
                     listener.onItemClick(item);
                 }
             });
         }
     }
-
-//    // Provide a suitable constructor (depends on the kind of dataset)
-//    public CityModelRecyclerAdapter(List<String> myDataset) {
-//        mDataSet = myDataset;
-//    }
 
     public CityModelRecyclerAdapter(List<String> myDataset, OnItemClickListener listener) {
         this.mDataSet = myDataset;
@@ -62,7 +57,7 @@ public class CityModelRecyclerAdapter extends RecyclerView.Adapter<CityModelRecy
     @Override
     public CityModelRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                                   int viewType) {
-        Log.i(ConfigActivity.TAG_SERVICE, " onCreateViewHolder -> ");
+        Log.i(AddNewCityActivity.TAG_SERVICE, " onCreateViewHolder -> ");
         // create a new view
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.text_view_recycler, parent, false);
@@ -76,9 +71,9 @@ public class CityModelRecyclerAdapter extends RecyclerView.Adapter<CityModelRecy
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        Log.i(ConfigActivity.TAG_SERVICE, " onBindViewHolder mDataSet -> " + mDataSet.toString());
+        Log.i(AddNewCityActivity.TAG_SERVICE, " onBindViewHolder mDataSet -> " + mDataSet.toString());
         String dataProvider = mDataSet.get(position);
-        Log.i(ConfigActivity.TAG_SERVICE, " onBindViewHolder -> " + dataProvider);
+        Log.i(AddNewCityActivity.TAG_SERVICE, " onBindViewHolder -> " + dataProvider);
 
         holder.mTextView.setText(dataProvider);
 
@@ -86,13 +81,11 @@ public class CityModelRecyclerAdapter extends RecyclerView.Adapter<CityModelRecy
 
     }
 
-
-
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
 
-        Log.i(ConfigActivity.TAG_SERVICE, " getItemCount()  -> mDataSet.size() " + Integer.toString(mDataSet.size()));
+        Log.i(AddNewCityActivity.TAG_SERVICE, " getItemCount()  -> mDataSet.size() " + Integer.toString(mDataSet.size()));
         return mDataSet.size();
     }
 
