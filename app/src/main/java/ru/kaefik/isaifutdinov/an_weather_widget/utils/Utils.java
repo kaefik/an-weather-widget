@@ -10,7 +10,6 @@ package ru.kaefik.isaifutdinov.an_weather_widget.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -31,9 +30,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import ru.kaefik.isaifutdinov.an_weather_widget.AddNewCityActivity;
-import ru.kaefik.isaifutdinov.an_weather_widget.city.ArrayCityModel;
 import ru.kaefik.isaifutdinov.an_weather_widget.city.ArrayCityModel2;
+import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel2;
 
 public class Utils {
 
@@ -303,34 +301,34 @@ public class Utils {
     }
 
 
-    // возвращает массив строк похожих названий которые найденны
-    public static ArrayList<String> getLikeNameCity(String searchNameCity) {
-        String APPID ="76d6de6e46c704733f12c8738307dbb5";
-        Log.i(AddNewCityActivity.TAG_SERVICE, " CityModel getLikeNameCity -> start " );
-        String url = "http://api.openweathermap.org/data/2.5/find?q=" + searchNameCity + "&type=like&APPID=" + APPID;
-        ArrayList<String> result = new ArrayList<String>();
-        String res = Utils.getHttpRequestFromUrl(url);
-
-        Gson gson = new Gson();
-        if (res == null) {
-            // TODO: подумать как лучше обработать данную ветку
-            System.out.println("Ошибка при обновлении данных");
-        } else {
-            Log.i(AddNewCityActivity.TAG_SERVICE, " CityModel getLikeNameCity -> res "+res );
-            ArrayCityModel cc = gson.fromJson(res, ArrayCityModel.class);
-            System.out.println(cc.getCount());
-            for(int i=0;i<cc.getCount();i++){
-                result.add(cc.getList(i).getName());
-            }
-        }
-        Log.i(AddNewCityActivity.TAG_SERVICE, " CityModel getLikeNameCity ->  " + result.toString());
-        return result;
-    }
+//    // возвращает массив строк похожих названий которые найденны
+//    public static ArrayList<String> getLikeNameCity(String searchNameCity) {
+//        String APPID = "76d6de6e46c704733f12c8738307dbb5";
+//        Log.i(AddNewCityActivity.TAG_SERVICE, " CityModel getLikeNameCity -> start ");
+//        String url = "http://api.openweathermap.org/data/2.5/find?q=" + searchNameCity + "&type=like&APPID=" + APPID;
+//        ArrayList<String> result = new ArrayList<String>();
+//        String res = Utils.getHttpRequestFromUrl(url);
+//
+//        Gson gson = new Gson();
+//        if (res == null) {
+//            // TODO: подумать как лучше обработать данную ветку
+//            System.out.println("Ошибка при обновлении данных");
+//        } else {
+//            Log.i(AddNewCityActivity.TAG_SERVICE, " CityModel getLikeNameCity -> res " + res);
+//            ArrayCityModel cc = gson.fromJson(res, ArrayCityModel.class);
+//            System.out.println(cc.getCount());
+//            for (int i = 0; i < cc.getCount(); i++) {
+//                result.add(cc.getList(i).getName());
+//            }
+//        }
+//        Log.i(AddNewCityActivity.TAG_SERVICE, " CityModel getLikeNameCity ->  " + result.toString());
+//        return result;
+//    }
 
 
     // возвращает массив строк похожих названий которые найденны - вторая версия
-    public static ArrayList<String> getLikeNameCity2(String searchNameCity) {
-        String APPID ="76d6de6e46c704733f12c8738307dbb5";
+    public static ArrayList<String> getLikeNameCity(String searchNameCity) {
+        String APPID = "76d6de6e46c704733f12c8738307dbb5";
 //        Log.i(TAG_SERVICE, " CityModel getLikeNameCity -> start " );
         String url = "http://api.openweathermap.org/data/2.5/find?q=" + searchNameCity + "&units=metric&type=like&APPID=" + APPID;
         ArrayList<String> result = new ArrayList<String>();
@@ -345,7 +343,7 @@ public class Utils {
 //            Log.i(TAG_SERVICE, " CityModel getLikeNameCity -> res "+res );
             ArrayCityModel2 cc = gson.fromJson(res, ArrayCityModel2.class);
             System.out.println(cc.getCount());
-            for(int i=0;i<cc.getCount();i++){
+            for (int i = 0; i < cc.getCount(); i++) {
                 result.add(cc.getList(i).getName());
                 System.out.println(cc.getList(i).getTemp());
             }
@@ -354,5 +352,25 @@ public class Utils {
         return result;
     }
 
+    // получение данных с погоды
+    public static CityModel2 getHttpWeather(String searchNameCity) {
+        String APPID = "76d6de6e46c704733f12c8738307dbb5";
+//        Log.i(TAG_SERVICE, " CityModel getLikeNameCity -> start " );
+        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + searchNameCity + "&units=metric&type=like&APPID=" + APPID;
+        CityModel2 result = new CityModel2(searchNameCity);
+        String res = Utils.getHttpRequestFromUrl(url);
+        System.out.println(res);
+
+
+        Gson gson = new Gson();
+        if (res == null) {
+            // TODO: подумать как лучше обработать данную ветку
+            System.out.println("Ошибка при обновлении данных");
+        } else {
+            result = gson.fromJson(res, CityModel2.class);
+        }
+
+        return result;
+    }
 
 }

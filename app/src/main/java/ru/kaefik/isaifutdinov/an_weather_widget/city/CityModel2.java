@@ -7,15 +7,17 @@ import java.util.Map;
 
 // класс информации о погоде города - вторая редакция специально для разбора json c помощью gson
 public class CityModel2 {
-    long id; // ID города
-    String name;  // название города
+    private long id; // ID города
+    private String name;  // название города
     @SerializedName("main")
-    Map<String, Float> mainWeather; //  "main":{"temp":283.15,"humidity":81,"pressure":1015,"temp_min":283.15,"temp_max":283.15}
-    Map<String, Float> wind;  // "wind":{"speed":1.03,"gust":0,"deg":0}
+    private Map<String, Float> mainWeather; //  "main":{"temp":283.15,"humidity":81,"pressure":1015,"temp_min":283.15,"temp_max":283.15}
+    private Map<String, Float> wind;  // "wind":{"speed":1.03,"gust":0,"deg":0}
     @SerializedName("sys")
-    Map<String, String> sysWeather; //  "sys":{"country":"RU"}
-    Map<String, Long> clouds; // "clouds":{"all":12}
-    ArrayList<Map<String, String>> weather; // weather":[{"id":801,"main":"Clouds","description":"few clouds","icon":"02d"}]
+    private Map<String, String> sysWeather; //  "sys":{"country":"RU"}
+    private Map<String, Long> clouds; // "clouds":{"all":12}
+    private ArrayList<Map<String, String>> weather; // weather":[{"id":801,"main":"Clouds","description":"few clouds","icon":"02d"}]
+
+    private String mTimeRefresh; // время обновления прогноза погоды
 
 
     public CityModel2(Map<String, Long> clouds, long id, Map<String, Float> mainWeather, String name, Map<String, String> sysWeather, ArrayList<Map<String, String>> weather, Map<String, Float> wind) {
@@ -30,13 +32,43 @@ public class CityModel2 {
 
 
     //----- методы получения данных о погоде
+    // получение температуры
     public Float getTemp() {
-        return  this.getMainWeather().get("temp");
+        return this.getMainWeather().get("temp");
     }
-    //-----
+
+    //получение направление ветра
+    public Float getWinddirection() {
+        return this.getWind().get("deg");
+    }
+
+    // получение скоркости ветра
+    public Float getWindspeed() {
+        return this.getWind().get("speed");
+    }
+
+    public String getWeatherDescription(){
+        return  this.getWeather().get(0).get("description");
+    }
+
+    // возвращает название файла иконки состояния погоды
+    public String getWeatherIcon(){
+        return this.getWeather().get(0).get("icon");
+    }
+
+    //----- END методы получения данных о погоде
 
 
     //---------- основные методы
+
+    public String getTimeRefresh() {
+        return mTimeRefresh;
+    }
+
+    public void setTimeRefresh(String timeRefresh) {
+        mTimeRefresh = timeRefresh;
+    }
+
     public ArrayList<Map<String, String>> getWeather() {
         return weather;
     }
