@@ -201,7 +201,6 @@ public class AddNewCityActivity extends AppCompatActivity {
                         dialog.show();
                     }
                 }));
-
             }
         };
 
