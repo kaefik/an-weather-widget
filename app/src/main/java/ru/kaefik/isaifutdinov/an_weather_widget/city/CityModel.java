@@ -10,9 +10,6 @@ package ru.kaefik.isaifutdinov.an_weather_widget.city;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,12 +17,10 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import ru.kaefik.isaifutdinov.an_weather_widget.AddNewCityActivity;
 import ru.kaefik.isaifutdinov.an_weather_widget.utils.Utils;
 
 // класс информации о погоде города
@@ -406,28 +401,7 @@ public class CityModel {
 // ,{"id":730496,"name":"Kazanluk","coord":{"lon":25.4,"lat":42.616669},"temp":{"temp":302.15,"pressure":1013,"humidity":32,"temp_min":302.15,"temp_max":302.15},"dt":1473858000,"wind":{"speed":4.1,"deg":350,"var_beg":310,"var_end":30},"sys":{"country":"BG"},"clouds":{"all":76},"weather":[{"id":803,"temp":"Clouds","description":"broken clouds","icon":"04d"}]}
 // ]}
 
-    // возвращает массив строк похожих названий которые найденны
-    public ArrayList<String> getLikeNameCity(String searchNameCity) {
-        Log.i(AddNewCityActivity.TAG_SERVICE, " CityModel getLikeNameCity -> start " );
-        String url = "http://api.openweathermap.org/data/2.5/find?q=" + searchNameCity + "&type=like&APPID=" + getMYAPPID();
-        ArrayList<String> result = new ArrayList<String>();
-        String res = Utils.getHttpRequestFromUrl(url);
 
-        Gson gson = new Gson();
-        if (res == null) {
-            // TODO: подумать как лучше обработать данную ветку
-            System.out.println("Ошибка при обновлении данных");
-        } else {
-            Log.i(AddNewCityActivity.TAG_SERVICE, " CityModel getLikeNameCity -> res "+res );
-            ArrayCityModel cc = gson.fromJson(res, ArrayCityModel.class);
-            System.out.println(cc.getCount());
-            for(int i=0;i<cc.getCount();i++){
-                result.add(cc.list[i].getName());
-            }
-        }
-        Log.i(AddNewCityActivity.TAG_SERVICE, " CityModel getLikeNameCity ->  " + result.toString());
-        return result;
-    }
 
 }
 
