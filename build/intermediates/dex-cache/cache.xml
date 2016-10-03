@@ -70,7 +70,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
-        sha1="f33a516df1754c518c058ecdb757fd695879d2da">
+        sha1="fcca29d07789e590fb3fdb902c1c66161035a18c">
         <dex dex="C:\prj-android\an-weather-widget\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_18c1cf8637a0ad2a60023bd2414ee3979414b713\classes.dex" />
     </item>
     <item
@@ -178,7 +178,7 @@
         jumboMode="true"
         optimize="true"
         revision="24.0.0"
-        sha1="629b30bf2123f4a2e959af437b7da08fb9eef528">
+        sha1="9ffeb38573029605dc9e6038e9453bb1200f3a26">
         <dex dex="C:\prj-android\an-weather-widget\app\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_88040eabfd5726ebef7a482ec14680efc6ccff10\classes.dex" />
     </item>
 

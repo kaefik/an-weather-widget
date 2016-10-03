@@ -1,6 +1,7 @@
 package ru.kaefik.isaifutdinov.an_weather_widget.city;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -10,6 +11,7 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import ru.kaefik.isaifutdinov.an_weather_widget.AddNewCityActivity;
 import ru.kaefik.isaifutdinov.an_weather_widget.utils.Utils;
 
 // класс информации о погоде города - вторая редакция специально для разбора json c помощью gson
@@ -57,31 +59,57 @@ public class CityModel2 {
     //----- методы получения данных о погоде
     // получение температуры
     public Float getTemp() {
-        return this.getMainWeather().get("temp");
+        if (this.getMainWeather() == null) {
+            return 0f;
+        } else {
+            return this.getMainWeather().get("temp");
+        }
     }
 
     //получение направление ветра
     public Float getWinddirection() {
-        return this.getWind().get("deg");
+        if (this.getWind() == null) {
+            return 0f;
+        } else {
+            return this.getWind().get("deg");
+        }
     }
 
     // получение скоркости ветра
     public Float getWindspeed() {
-        return this.getWind().get("speed");
+
+        if (this.getWind() == null) {
+            return 0f;
+        } else {
+            return this.getWind().get("speed");
+        }
     }
 
     public String getWeatherDescription() {
-        return this.getWeather().get(0).get("description");
+        if (this.getWeather() == null) {
+            return "";
+        } else {
+            return this.getWeather().get(0).get("description");
+        }
     }
 
     // возвращает название файла иконки состояния погоды
     public String getWeatherIcon() {
-        return this.getWeather().get(0).get("icon");
+
+        if (this.getWeather() == null) {
+            return "";
+        } else {
+            return this.getWeather().get(0).get("icon");
+        }
     }
 
     // возвращает текущую страну
     public String getCountry() {
-        return this.getSysWeather().get("country");
+        if (this.getSysWeather() == null) {
+            return "";
+        } else {
+            return this.getSysWeather().get("country");
+        }
     }
 
     public Boolean isEmptyWeatherDescription() {
@@ -98,17 +126,17 @@ public class CityModel2 {
     public boolean openFile(String nameFile, Context context) {
         boolean flagStatus = true;
         Gson gson = new Gson();
-        CityModel2 cc = gson.fromJson(Utils.openFile(nameFile, context), CityModel2.class);
-        this.copyCityModel2(cc);
+        String strjo = Utils.openFile(nameFile, context);
+        if (!strjo.trim().equals("")) {
+            Log.i(AddNewCityActivity.TAG_SERVICE, "CityModel2 - >  openFile:  strjo  " + strjo);
+            CityModel2 cc = gson.fromJson(strjo, CityModel2.class);
+            Log.i(AddNewCityActivity.TAG_SERVICE, "CityModel2 - >  gson");
+            Log.i(AddNewCityActivity.TAG_SERVICE, "CityModel2 - >  gson.fromJson:  cc.name  " + cc.getName());
+            this.copyCityModel2(cc);
+            Log.i(AddNewCityActivity.TAG_SERVICE, "CityModel2 - >  gson.fromJson:  this.name  " + this.getName());
+        }
         //TODO: реализовать открытие файла и считывание данных в формате JOSN
-//        try {
-//            JSONObject jo = new JSONObject(Utils.openFile(nameFile, context));
-//            this.CityModel2(new CityModel2(jo));
-//        } catch (JSONException e) {
-//            flagStatus = false;
-//        } catch (ParseException e) {
-//            flagStatus = false;
-//        }
+
         return flagStatus;
     }
 
@@ -117,9 +145,9 @@ public class CityModel2 {
         // TODO: реализовать сохранение в файл формате JOSN
         Gson gson = new Gson();
         String strJo = gson.toJson(this).toString();
+        Log.i(AddNewCityActivity.TAG_SERVICE,strJo);
 //        String strJo = this.toJSON().toString();
-        Utils.saveFile(nameFile, strJo, context);
-    }
+        Utils.saveFile(nameFile, strJo, context);    }
 
 
     //----- END методы получения данных о погоде

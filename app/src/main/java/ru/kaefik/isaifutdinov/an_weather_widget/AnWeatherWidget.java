@@ -60,7 +60,7 @@ public class AnWeatherWidget extends AppWidgetProvider {
 
         //получение данных из сохраненного файла
         //TODO: разобраться с восстановлением города из файла
-//        mCityModel2 = GetWeatherCityService.restoreCityInfoFromFile(context, mCityModel2);
+        mCityModel2 = GetWeatherCityService.restoreCityInfoFromFile(context, mCityModel2);
       //  TODO: Log.i(TAG_SERVICE, "updateAppWidget  ->  восстановлен из файла " + mCityModel2.getName() + " -> " + mCityModel2.getTemp());
 
         if (!nameCity.trim().equals("")) {

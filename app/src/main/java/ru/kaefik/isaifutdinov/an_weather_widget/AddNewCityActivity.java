@@ -79,7 +79,7 @@ public class AddNewCityActivity extends AppCompatActivity {
         setResult(RESULT_CANCELED);
 
 
-        Log.i(TAG_SERVICE, "onStart  ConfigActivity");
+        Log.i(TAG_SERVICE, "onStart  AddNewCityActivity");
         //-----------------------
         mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
         Intent intent = getIntent();

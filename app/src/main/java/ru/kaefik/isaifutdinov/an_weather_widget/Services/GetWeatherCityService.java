@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import ru.kaefik.isaifutdinov.an_weather_widget.AddNewCityActivity;
 import ru.kaefik.isaifutdinov.an_weather_widget.AnWeatherWidget;
 import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel2;
 import ru.kaefik.isaifutdinov.an_weather_widget.utils.Utils;
@@ -157,7 +158,9 @@ public class GetWeatherCityService extends Service {
     public static CityModel2 restoreCityInfoFromFile(Context context, CityModel2 CityModel2) throws JSONException {
         String nameFile = CityModel2.getName();
         if (nameFile != null) {
-            CityModel2.openFile(nameFile + ".txt", context);
+            Log.i(AddNewCityActivity.TAG_SERVICE,"restoreCityInfoFromFile :  nameFile  "+nameFile );
+            if (!nameFile.equals("")){
+            CityModel2.openFile(nameFile + ".txt", context);}
         }
         return CityModel2;
     }
