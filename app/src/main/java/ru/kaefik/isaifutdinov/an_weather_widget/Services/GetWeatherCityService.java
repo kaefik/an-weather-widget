@@ -10,40 +10,37 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
-import java.text.ParseException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import ru.kaefik.isaifutdinov.an_weather_widget.AnWeatherWidget;
-import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel;
+import ru.kaefik.isaifutdinov.an_weather_widget.city.CityModel2;
 import ru.kaefik.isaifutdinov.an_weather_widget.utils.Utils;
 
 public class GetWeatherCityService extends Service {
 
 //    public static String AnWeatherWidget.TAG_SERVICE ="GetWeatherCityService";
 
-    private CityModel mCityModel;
+    private CityModel2 mCityModel2;
     private cityInfoAsyncTask mTask;
     private int mWidgetId;
 
 
-    class cityInfoAsyncTask extends AsyncTask<Void, Void, CityModel> {
+    class cityInfoAsyncTask extends AsyncTask<Void, Void, CityModel2> {
         @Override
-        protected CityModel doInBackground(Void... voids) {
-            try {
-                // TODO: не нравится что использую в этом классе объект mCityDataWeather
-                mCityModel.getHttpWeather();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            return mCityModel;
+        protected CityModel2 doInBackground(Void... voids) {
+
+//                mCityModel2.getHttpWeather();
+            mCityModel2 = Utils.getHttpWeather(mCityModel2.getName());
+
+            return mCityModel2;
         }
 
         @Override
-        protected void onPostExecute(CityModel cityModel) {
-            super.onPostExecute(cityModel);
+        protected void onPostExecute(CityModel2 CityModel2) {
+            super.onPostExecute(CityModel2);
         }
     }
 
@@ -57,8 +54,8 @@ public class GetWeatherCityService extends Service {
 
         Log.i(AnWeatherWidget.TAG_SERVICE, "mTask.execute()");
         mTask.execute();
-        mCityModel = mTask.get(5, TimeUnit.SECONDS);
-        saveCityInfoToFile(mCityModel);
+        mCityModel2 = mTask.get(5, TimeUnit.SECONDS);
+        saveCityInfoToFile(mCityModel2);
     }
 
 
@@ -74,10 +71,10 @@ public class GetWeatherCityService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(AnWeatherWidget.TAG_SERVICE, "Start onStartCommand  GetWeatherCityService");
-        mCityModel = new CityModel();
-        mCityModel.setMYAPPID("76d6de6e46c704733f12c8738307dbb5");
+        mCityModel2 = new CityModel2();
+//        mCityModel2.setMYAPPID("76d6de6e46c704733f12c8738307dbb5");
         // получение данных через intent: имя города который нужно обновить
-        mCityModel.setName(intent.getStringExtra(AnWeatherWidget.PARAM_CITY));
+        mCityModel2.setName(intent.getStringExtra(AnWeatherWidget.PARAM_CITY));
         mWidgetId = intent.getIntExtra(AnWeatherWidget.PARAM_WIDGETID, 0);
 
         if (Utils.isConnected(getApplication())) {
@@ -95,10 +92,10 @@ public class GetWeatherCityService extends Service {
                 Toast.makeText(getApplicationContext(), "Ошибка обновления (TimeoutException)", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
-            Log.i(AnWeatherWidget.TAG_SERVICE, "после refreshDataWeather() имя города: " + mCityModel.getName() + " -> " + mCityModel.getTemp());
+            Log.i(AnWeatherWidget.TAG_SERVICE, "после refreshDataWeather() имя города: " + mCityModel2.getName() + " -> " + mCityModel2.getTemp());
 
             Log.i(AnWeatherWidget.TAG_SERVICE, "start refreshWidget");
-            if (!mCityModel.isEmptyWeatherDescription()) {
+            if (!mCityModel2.isEmptyWeatherDescription()) {
                 refreshWidget();
             }
         } else {
@@ -123,17 +120,17 @@ public class GetWeatherCityService extends Service {
 
     // обновление виджета используя широковещательные сообщения
     private void refreshWidget() {
-        Log.i(AnWeatherWidget.TAG_SERVICE, "refreshWidget имя города: " + mCityModel.getName() + " -> " + mCityModel.getTemp() + " mWidgetId = " + String.valueOf(mWidgetId));
+        Log.i(AnWeatherWidget.TAG_SERVICE, "refreshWidget имя города: " + mCityModel2.getName() + " -> " + mCityModel2.getTemp() + " mWidgetId = " + String.valueOf(mWidgetId));
         // отправка виджету погоды данные о погоде
         Intent intent = new Intent(AnWeatherWidget.FORCE_WIDGET_UPDATE);
-        intent.putExtra(AnWeatherWidget.PARAM_CITY, mCityModel.getName());
-        intent.putExtra(AnWeatherWidget.PARAM_TEMP, Float.toString(mCityModel.getTemp()) + "C");
-        intent.putExtra(AnWeatherWidget.PARAM_TIMEREFRESH, mCityModel.getTimeRefresh());
-        intent.putExtra(AnWeatherWidget.PARAM_DESCWEATHER, mCityModel.getWeather("description"));
-        intent.putExtra(AnWeatherWidget.PARAM_WEATHERIMAGE, mCityModel.getWeather("icon"));
-        intent.putExtra(AnWeatherWidget.PARAM_WIND, Utils.windGradus2Rumb(mCityModel.getWinddirection()) + " (" + Float.toString(mCityModel.getWindspeed()) + " м/с)");
+        intent.putExtra(AnWeatherWidget.PARAM_CITY, mCityModel2.getName());
+        intent.putExtra(AnWeatherWidget.PARAM_TEMP, Float.toString(mCityModel2.getTemp()) + "C");
+        intent.putExtra(AnWeatherWidget.PARAM_TIMEREFRESH, mCityModel2.getTimeRefresh());
+        intent.putExtra(AnWeatherWidget.PARAM_DESCWEATHER, mCityModel2.getWeatherDescription());  //getWeather("description"));
+        intent.putExtra(AnWeatherWidget.PARAM_WEATHERIMAGE, mCityModel2.getWeatherIcon());  //getWeather("icon"));
+        intent.putExtra(AnWeatherWidget.PARAM_WIND, Utils.windGradus2Rumb(mCityModel2.getWinddirection()) + " (" + Float.toString(mCityModel2.getWindspeed()) + " м/с)");
         intent.putExtra(AnWeatherWidget.PARAM_WIDGETID, mWidgetId);
-//        saveCityInfoToFile(mCityModel);
+//        saveCityInfoToFile(mCityModel2);
         sendBroadcast(intent);
     }
 
@@ -145,7 +142,7 @@ public class GetWeatherCityService extends Service {
     }
 
     // проверка на то что namecity есть в списке имен городов, true - есть, false - нет
-    public boolean isExistNameFromList(List<CityModel> listcity, String namecity) {
+    public boolean isExistNameFromList(List<CityModel2> listcity, String namecity) {
         boolean flagExistNameCity = false;
         for (int i = 0; i < listcity.size(); i++) {
             if (listcity.get(i).getName().equals(namecity)) {
@@ -157,20 +154,20 @@ public class GetWeatherCityService extends Service {
     }
 
     //    восстановление сохраненых данных о погоде(каждый город-отдельный файл с Josn)
-    public static CityModel restoreCityInfoFromFile(Context context, CityModel cityModel) throws JSONException {
-        String nameFile = cityModel.getName();
+    public static CityModel2 restoreCityInfoFromFile(Context context, CityModel2 CityModel2) throws JSONException {
+        String nameFile = CityModel2.getName();
         if (nameFile != null) {
-            cityModel.openFile(nameFile + ".txt", context);
+            CityModel2.openFile(nameFile + ".txt", context);
         }
-        return cityModel;
+        return CityModel2;
     }
 
     //сохранение данных о погоде каждый город в отдельный файл
-    public void saveCityInfoToFile(CityModel cityModel) {
-        String nameFile = cityModel.getName();
+    public void saveCityInfoToFile(CityModel2 CityModel2) {
+        String nameFile = CityModel2.getName();
         if (nameFile != null) {
             try {
-                cityModel.saveToFile(nameFile + ".txt", getApplicationContext());
+                CityModel2.saveToFile(nameFile + ".txt", getApplicationContext());
             } catch (JSONException e) {
                 e.printStackTrace();
             }

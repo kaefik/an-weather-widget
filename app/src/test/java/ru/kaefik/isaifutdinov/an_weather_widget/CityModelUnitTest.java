@@ -22,8 +22,11 @@ public class CityModelUnitTest {
 
     @Test
     public void testgetMainWeather() throws Exception {
-        CityModel2 cc = new CityModel2("Kazan");
-        Utils.getHttpWeather("Kazan");
+        CityModel2 cc = Utils.getHttpWeather("Kazan");
+        System.out.println(cc.getCountry());
+
     }
+
+    // TODO: сделать проверку в методах доступа CityModel2 на null объект
 
 }

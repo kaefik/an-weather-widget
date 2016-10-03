@@ -1,9 +1,16 @@
 package ru.kaefik.isaifutdinov.an_weather_widget.city;
 
+import android.content.Context;
+
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Map;
+
+import ru.kaefik.isaifutdinov.an_weather_widget.utils.Utils;
 
 // класс информации о погоде города - вторая редакция специально для разбора json c помощью gson
 public class CityModel2 {
@@ -30,6 +37,22 @@ public class CityModel2 {
         this.wind = wind;
     }
 
+    // копирование объекта obj в текущий
+    public void copyCityModel2(CityModel2 obj) {
+        this.id = obj.getId();
+        this.name = obj.getName();
+        this.mainWeather = obj.getMainWeather();
+        this.wind = obj.getWind();
+        this.sysWeather = obj.getSysWeather();
+        this.clouds = obj.getClouds();
+        this.weather = obj.getWeather();
+        this.mTimeRefresh = obj.getTimeRefresh();
+    }
+
+    public CityModel2(String name) {
+        this.name = name;
+    }
+
 
     //----- методы получения данных о погоде
     // получение температуры
@@ -47,14 +70,57 @@ public class CityModel2 {
         return this.getWind().get("speed");
     }
 
-    public String getWeatherDescription(){
-        return  this.getWeather().get(0).get("description");
+    public String getWeatherDescription() {
+        return this.getWeather().get(0).get("description");
     }
 
     // возвращает название файла иконки состояния погоды
-    public String getWeatherIcon(){
+    public String getWeatherIcon() {
         return this.getWeather().get(0).get("icon");
     }
+
+    // возвращает текущую страну
+    public String getCountry() {
+        return this.getSysWeather().get("country");
+    }
+
+    public Boolean isEmptyWeatherDescription() {
+
+        if (this.getWeatherDescription().trim().equals("")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // открыть файл nameFile сохраненный в виде Josn и сохранить данные в объект,
+    // возвращает false если произошла ошибка открытия, иначе true
+    public boolean openFile(String nameFile, Context context) {
+        boolean flagStatus = true;
+        Gson gson = new Gson();
+        CityModel2 cc = gson.fromJson(Utils.openFile(nameFile, context), CityModel2.class);
+        this.copyCityModel2(cc);
+        //TODO: реализовать открытие файла и считывание данных в формате JOSN
+//        try {
+//            JSONObject jo = new JSONObject(Utils.openFile(nameFile, context));
+//            this.CityModel2(new CityModel2(jo));
+//        } catch (JSONException e) {
+//            flagStatus = false;
+//        } catch (ParseException e) {
+//            flagStatus = false;
+//        }
+        return flagStatus;
+    }
+
+    // сохранить объект в файл nameFile в виде Josn
+    public void saveToFile(String nameFile, Context context) throws JSONException {
+        // TODO: реализовать сохранение в файл формате JOSN
+        Gson gson = new Gson();
+        String strJo = gson.toJson(this).toString();
+//        String strJo = this.toJSON().toString();
+        Utils.saveFile(nameFile, strJo, context);
+    }
+
 
     //----- END методы получения данных о погоде
 
@@ -77,9 +143,6 @@ public class CityModel2 {
         this.weather = weather;
     }
 
-    public CityModel2(String name) {
-        this.name = name;
-    }
 
     public CityModel2() {
         this.name = "";
