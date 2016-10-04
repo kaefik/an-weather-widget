@@ -368,6 +368,7 @@ public class Utils {
             System.out.println("Ошибка при обновлении данных");
         } else {
             result = gson.fromJson(res, CityModel2.class);
+            result.setTimeRefresh();
         }
 
         return result;
