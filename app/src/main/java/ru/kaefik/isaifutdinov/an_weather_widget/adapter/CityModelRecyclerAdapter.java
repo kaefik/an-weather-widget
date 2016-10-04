@@ -33,7 +33,7 @@ public class CityModelRecyclerAdapter extends RecyclerView.Adapter<CityModelRecy
 
         public ViewHolder(View view) {
             super(view);
-            mTextView = (TextView) view.findViewById(R.id.ItemTextView);
+            mTextView = (TextView) view.findViewById(R.id.NameCityTextView);
         }
 
         public void bind(final String item, final OnItemClickListener listener) {

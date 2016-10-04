@@ -39,6 +39,7 @@ public class AnWeatherWidget extends AppWidgetProvider {
     public final static String PARAM_WEATHERIMAGE = "weatherImage";
     public final static String PARAM_DESCWEATHER = "descriptionWeather";
     public final static String PARAM_WIDGETID = "widgetId";
+    public final static String PARAM_COUNTRY = "country";
 
     // действие принудилельного обновления данных виджета
     public final static String FORCE_WIDGET_UPDATE = "ru.kaefik.isaifutdinov.an_weather_widget.FORCE_WIDGET_UPDATE";
@@ -75,7 +76,7 @@ public class AnWeatherWidget extends AppWidgetProvider {
             //регистрируем наше событие
             remoteViews.setOnClickPendingIntent(R.id.refreshButton, actionPendingIntent);
             //обновляем виджет
-            remoteViews.setTextViewText(R.id.cityNameText, mCityModel2.getName());
+            remoteViews.setTextViewText(R.id.cityNameText, mCityModel2.getName()+"("+mCityModel2.getCountry()+")");
             remoteViews.setTextViewText(R.id.tempCityText, mCityModel2.getTemp() + "C");
             remoteViews.setTextViewText(R.id.windText, Utils.windGradus2Rumb(mCityModel2.getWinddirection()) + " (" + Float.toString(mCityModel2.getWindspeed()) + " м/с)");
             remoteViews.setTextViewText(R.id.timeRefreshText, mCityModel2.getTimeRefresh());
@@ -125,6 +126,7 @@ public class AnWeatherWidget extends AppWidgetProvider {
             String timeRefreshCity = intent.getStringExtra(PARAM_TIMEREFRESH);
             String weatherImageCity = intent.getStringExtra(PARAM_WEATHERIMAGE);
             String descriptionWeather = intent.getStringExtra(PARAM_DESCWEATHER);
+            String country = intent.getStringExtra(PARAM_COUNTRY);
             int WidgetId = intent.getIntExtra(PARAM_WIDGETID, 0);
 
             //TODO: проверить что данные поступили нулевые, тогда получаем данные из файла ИМЯГОРОДА. Возможно это перенести в GetWeatherCityService
@@ -140,7 +142,7 @@ public class AnWeatherWidget extends AppWidgetProvider {
                 Log.i(TAG_SERVICE, "onReceive ->  appWidgetId = " + String.valueOf(appWidgetId[i]));
                 RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.an_weather_widget);
                 if (WidgetId == appWidgetId[i]) {
-                    views.setTextViewText(R.id.cityNameText, nameCity);
+                    views.setTextViewText(R.id.cityNameText, nameCity+"("+country+")");
                     views.setTextViewText(R.id.tempCityText, tempCity);
                     views.setTextViewText(R.id.windText, windCity);
                     views.setTextViewText(R.id.timeRefreshText, timeRefreshCity);
