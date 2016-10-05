@@ -356,9 +356,9 @@ public class Utils {
     // функция возвращает страну из строки searchNameCityCountry
     //  searchNameCityCountry - строка типа имяГорода:страна
     public static String getCountry(String searchNameCityCountry) {
-        if (searchNameCityCountry.indexOf("-")>=0) {
+        if (searchNameCityCountry.indexOf("-") >= 0) {
             return searchNameCityCountry.split("-")[1].trim();
-        } else{
+        } else {
             return "";
         }
     }
@@ -395,7 +395,7 @@ public class Utils {
     public static CityModel2 getHttpWeather(String searchNameCity, String searchCountry) {
         String APPID = "76d6de6e46c704733f12c8738307dbb5";
 //        Log.i(TAG_SERVICE, " CityModel getLikeNameCity -> start " );
-        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + searchNameCity +","+searchCountry+ "&units=metric&type=like&APPID=" + APPID;
+        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + Utils.replaceSpaceForHttpSpace(searchNameCity) + "," + searchCountry + "&units=metric&type=like&APPID=" + APPID;
         CityModel2 result = new CityModel2(searchNameCity);
         String res = Utils.getHttpRequestFromUrl(url);
         System.out.println(res);
@@ -411,6 +411,11 @@ public class Utils {
         }
 
         return result;
+    }
+
+    //меняет пробел на символ %20 для того чтобы при запросах http не было ошибок
+    public  static String replaceSpaceForHttpSpace(String str){
+        return str.replace(" ","%20");
     }
 
 }

@@ -62,10 +62,10 @@ public class AnWeatherWidget extends AppWidgetProvider {
         //получение данных из сохраненного файла
         //TODO: разобраться с восстановлением города из файла
         mCityModel2 = GetWeatherCityService.restoreCityInfoFromFile(context, mCityModel2);
-        Log.i(TAG_SERVICE, "updateAppWidget  ->  восстановлен из файла " + mCityModel2.getName() + " -> "+mCityModel2.getCountry()+ " -> " + mCityModel2.getTemp());
+        Log.i(TAG_SERVICE, "updateAppWidget  ->  восстановлен из файла " + mCityModel2.getName() + " -> " + mCityModel2.getCountry() + " -> " + mCityModel2.getTemp());
 
         if (!nameCity.trim().equals("")) {
-            Log.i(TAG_SERVICE, "обновление виджета  updateAppWidget - >город: " + Utils.getCountry(nameCity)+" "+Utils.getNameCity(nameCity) + "  appWidgetId = " + String.valueOf(appWidgetId)+"!nameCity.trim().equals");
+            Log.i(TAG_SERVICE, "обновление виджета  updateAppWidget - >город: " + Utils.getCountry(nameCity) + " " + Utils.getNameCity(nameCity) + "  appWidgetId = " + String.valueOf(appWidgetId) + "!nameCity.trim().equals");
             // вешаем на кпонку событие CLICK_WIDGET_BUTTON чтобы его обработать в методе onReceive
             RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.an_weather_widget);
             //Подготавливаем Intent для Broadcast
@@ -96,10 +96,7 @@ public class AnWeatherWidget extends AppWidgetProvider {
     // запуск сервиса GetWeatherCityService обновления данных города
     public static void startGetWeatherCityService(Context context, int appWidgetId, CityModel2 CityModel2) {
         Intent intent;
-        Utils.createTranslateWeatherDescription();
-
-        Log.i(TAG_SERVICE, "зашли в метод startGetWeatherCityService " + CityModel2.getName()+" -> "+CityModel2.getCountry());
-
+        Log.i(TAG_SERVICE, "зашли в метод startGetWeatherCityService " + CityModel2.getName() + " -> " + CityModel2.getCountry());
         intent = new Intent(context, GetWeatherCityService.class);
         intent.putExtra(PARAM_CITY, CityModel2.getName());
         intent.putExtra(PARAM_COUNTRY, CityModel2.getCountry());
@@ -182,7 +179,7 @@ public class AnWeatherWidget extends AppWidgetProvider {
             // обновление всех наших виджетов
             for (int i = 0; i < appWidgetId.length; i++) {
                 String nameCity = AddNewCityActivity.loadStringParametersFromFile(context, String.valueOf(appWidgetId[i]));
-                Log.i(TAG_SERVICE, "id виждета при обновлении виджетов -> " + String.valueOf(appWidgetId[i]+ " город "+nameCity));
+                Log.i(TAG_SERVICE, "id виждета при обновлении виджетов -> " + String.valueOf(appWidgetId[i] + " город " + nameCity));
                 startGetWeatherCityService(context, appWidgetId[i], new CityModel2(Utils.getNameCity(nameCity), Utils.getCountry(nameCity)));
             }
         }

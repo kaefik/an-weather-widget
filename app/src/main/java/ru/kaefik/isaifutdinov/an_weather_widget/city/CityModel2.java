@@ -60,11 +60,11 @@ public class CityModel2 {
         this.name = name;
     }
 
-    public CityModel2(String name,String country) {
+    public CityModel2(String name, String country) {
         this.name = name;
 //        private Map<String, String> sysWeather; //  "sys":{"country":"RU"}
         this.sysWeather = new HashMap<String, String>();
-        this.sysWeather.put("country",country);
+        this.sysWeather.put("country", country);
     }
 
 
@@ -157,9 +157,10 @@ public class CityModel2 {
         // TODO: реализовать сохранение в файл формате JOSN
         Gson gson = new Gson();
         String strJo = gson.toJson(this).toString();
-        Log.i(AddNewCityActivity.TAG_SERVICE,strJo);
+        Log.i(AddNewCityActivity.TAG_SERVICE, strJo);
 //        String strJo = this.toJSON().toString();
-        Utils.saveFile(nameFile, strJo, context);    }
+        Utils.saveFile(nameFile, strJo, context);
+    }
 
 
     //----- END методы получения данных о погоде
