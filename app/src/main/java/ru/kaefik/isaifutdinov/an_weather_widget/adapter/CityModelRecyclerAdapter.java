@@ -29,16 +29,16 @@ public class CityModelRecyclerAdapter extends RecyclerView.Adapter<CityModelRecy
     // you provide access to all the views for a data item in a view holder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        protected TextView mTextView;
+        protected TextView mNameCityTextView; // название города
 
         public ViewHolder(View view) {
             super(view);
-            mTextView = (TextView) view.findViewById(R.id.NameCityTextView);
+            mNameCityTextView = (TextView) view.findViewById(R.id.NameCityTextView);
         }
 
         public void bind(final String item, final OnItemClickListener listener) {
 
-            mTextView.setOnClickListener(new View.OnClickListener() {
+            mNameCityTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.onItemClick(item);
@@ -75,7 +75,7 @@ public class CityModelRecyclerAdapter extends RecyclerView.Adapter<CityModelRecy
         String dataProvider = mDataSet.get(position);
         Log.i(AddNewCityActivity.TAG_SERVICE, " onBindViewHolder -> " + dataProvider);
 
-        holder.mTextView.setText(dataProvider);
+        holder.mNameCityTextView.setText(dataProvider);
 
         holder.bind(dataProvider, listener);
 

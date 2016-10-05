@@ -55,7 +55,8 @@ public class AddNewCityActivity extends AppCompatActivity {
 
             // TODO: не нравится что использую в этом классе объект mCityDataWeather
             Log.i(AddNewCityActivity.TAG_SERVICE, " AddNewCityActivity: onPostExecute -> voids[0] " + voids[0]);
-            rr = Utils.getLikeNameCity(voids[0]);
+//            rr = Utils.getLikeNameCity(voids[0]);
+            rr = Utils.getLikeNameCityCountry(voids[0]);
 
             return rr;
         }

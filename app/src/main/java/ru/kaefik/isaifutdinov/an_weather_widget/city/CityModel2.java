@@ -13,6 +13,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import ru.kaefik.isaifutdinov.an_weather_widget.AddNewCityActivity;
@@ -57,6 +58,13 @@ public class CityModel2 {
 
     public CityModel2(String name) {
         this.name = name;
+    }
+
+    public CityModel2(String name,String country) {
+        this.name = name;
+//        private Map<String, String> sysWeather; //  "sys":{"country":"RU"}
+        this.sysWeather = new HashMap<String, String>();
+        this.sysWeather.put("country",country);
     }
 
 
