@@ -332,7 +332,7 @@ public class Utils {
     public static ArrayList<String> getLikeNameCityCountry(String searchNameCity) {
         String APPID = "76d6de6e46c704733f12c8738307dbb5";
 //        Log.i(TAG_SERVICE, " CityModel getLikeNameCity -> start " );
-        String url = "http://api.openweathermap.org/data/2.5/find?q=" + Utils.replaceSpaceForHttpSpace(searchNameCity) + "&units=metric&type=like&APPID=" + APPID;
+        String url = "http://api.openweathermap.org/data/2.5/find?q=" + Utils.replaceSpaceForHttpSpace(searchNameCity.trim()) + "&units=metric&type=like&APPID=" + APPID;
         ArrayList<String> result = new ArrayList<String>();
         String res = Utils.getHttpRequestFromUrl(url);
         System.out.println(res);
@@ -396,7 +396,7 @@ public class Utils {
     public static CityModel2 getHttpWeather(String searchNameCity, String searchCountry) {
         String APPID = "76d6de6e46c704733f12c8738307dbb5";
 //        Log.i(TAG_SERVICE, " CityModel getLikeNameCity -> start " );
-        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + Utils.replaceSpaceForHttpSpace(searchNameCity) + "," + searchCountry + "&units=metric&type=like&APPID=" + APPID;
+        String url = "http://api.openweathermap.org/data/2.5/weather?q=" + Utils.replaceSpaceForHttpSpace(searchNameCity.trim()) + "," + searchCountry + "&units=metric&type=like&APPID=" + APPID;
         CityModel2 result = new CityModel2(searchNameCity);
         String res = Utils.getHttpRequestFromUrl(url);
         Log.i(TAG_SERVICE, " CityModel2 getHttpWeather -> res "+res);
