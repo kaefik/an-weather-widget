@@ -1,8 +1,6 @@
 package ru.kaefik.isaifutdinov.an_weather_widget.city;
 
 import android.content.Context;
-import android.icu.text.DateFormat;
-import android.icu.text.SimpleDateFormat;
 import android.net.ParseException;
 import android.util.Log;
 
@@ -11,6 +9,8 @@ import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
